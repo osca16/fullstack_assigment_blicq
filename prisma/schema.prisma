@@ -37,10 +37,12 @@ model User{
   role Role @default(USER)
   status UserStatus @default(ACTIVE)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   //Relations
   accounts Account[]
-  adveetisements Advertisement[]
+  advertisements Advertisement[]
+
 }
 
 model Account{
@@ -66,21 +68,27 @@ model Category {
   name String
   slug String @unique
   parentId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   //self relation
-  parent Category? @relation("CategorytoCategory", fields: [parentId], references: [id])
-  children Category[] @relation("CategorytoCategory")
+  parent Category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryHierarchy")
 
   //Relations
-  adveetisements Advertisement[]
+  advertisements Advertisement[]
+
+  @@index([parentId])
 }
 
 model Location {
   id String @id @default(cuid())
   name String
   slug String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  adveetisements Advertisement[]
+  advertisements Advertisement[]
 }
 
 model Advertisement{
@@ -91,15 +99,21 @@ model Advertisement{
 
   title String
   description String
-  price Decimal
+  price Decimal @db.Decimal(10, 2)
   status AdStatus @default(PENDING)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   //Relations
-  user User @relation(fields: [userId], references:[id])
+  user User @relation(fields: [userId], references:[id], onDelete:Cascade)
   category Category @relation(fields: [categoryId], references:[id])
   location Location @relation(fields: [locationId], references:[id])
   images AdImage[]
+
+  @@index([categoryId])
+  @@index([locationId])
+  @@index([status])
+  @@index([userId])
 }
 
 
