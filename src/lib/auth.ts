@@ -5,6 +5,7 @@ import { prisma } from "./prisma";
 
 export const {handlers, auth, signIn, signOut} = NextAuth({
     adapter: PrismaAdapter(prisma),
+    secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
 
     providers: [
         GoogleProvider({
@@ -20,28 +21,39 @@ export const {handlers, auth, signIn, signOut} = NextAuth({
         async session({session, user}) {
             if (session.user){
                 session.user.id = user.id;
-                session.user.name = user.name;
-                session.user.role = user.role;
-                session.user.email = user.email;
-                session.user.status = user.status;
+
+                const dbUser = await prisma.user.findUnique({
+                    where:{id:user.id},
+                    select: {id: true, name: true, email: true, role: true, status:true},
+                });
+                if(dbUser){
+                    session.user.role = dbUser.role;
+                    session.user.name = dbUser.name;
+                    session.user.email = dbUser.email;
+                    session.user.id = dbUser.id;
+                    session.user.status = dbUser.status;
+                }
             }
             return session;
         },
 
         async signIn({user}){
+            if (!user.email){
+                return false;
+            }
+
             const dbUser = await prisma.user.findUnique({
-                where: {email:user.email!},
+                where: {email:user.email},
             });
+
+            if (!dbUser){
+                return true;
+            }
 
             if (dbUser.status === "BLOCKED"){
                 return false;
             }
             return true;
         }
-    },
-
-    pages: {
-        signIn: "/login",
-        error: "/error",
     },
 });

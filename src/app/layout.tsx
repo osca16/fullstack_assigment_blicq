@@ -1,6 +1,13 @@
-import { Inter, DM_Sans } from "next/font/google";
+import "./globals.css";
 
-const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading'});
-
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
+export default function RootLayout({
+  children,
+}: {
+  readonly children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}

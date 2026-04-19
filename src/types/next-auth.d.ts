@@ -1,11 +1,17 @@
 import { DefaultSession } from "next-auth";
+import { Role, UserStatus } from "../generated/prisma/enums";
 
 declare module "next-auth"{
+    interface User{
+        role: Role;
+        status:UserStatus
+    }
+
     interface Session {
-        user: {
-            id:String;
-            role:"USER"|"MODERATOR";
-            status:"ACTIVE"|"BLOCKED";
-        }& DefaultSession["user"];
+        user:DefaultSession["user"]&{
+            id:string;
+            role:Role;
+            status:UserStatus;
+        };
     }
 }

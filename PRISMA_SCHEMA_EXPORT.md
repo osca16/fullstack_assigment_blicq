@@ -1,3 +1,32 @@
+# Prisma Schema Export
+
+Generated on: 2026-04-19
+Source: `prisma/schema.prisma`
+
+## Purpose
+
+This file exports your current Prisma schema and provides a short explanation of each enum and model.
+
+## Enums
+
+- `Role`: User access level (`USER`, `MODERATOR`).
+- `UserStatus`: Account moderation state (`ACTIVE`, `BLOCKED`).
+- `AdStatus`: Advertisement lifecycle state (`PENDING`, `ACTIVE`, `REJECTED`).
+
+## Models Overview
+
+- `User`: Identity and role/status for platform users.
+- `Account`: OAuth provider linkage for NextAuth.
+- `Category`: Hierarchical ad categories (supports parent/children).
+- `Location`: Geographic label/slugs for ads.
+- `Advertisement`: Core listing entity.
+- `AdImage`: Image records attached to an advertisement.
+- `Session`: Database-backed auth sessions.
+- `VerificationToken`: Token storage for verification flows.
+
+## Exact Schema
+
+~~~prisma
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -5,7 +34,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../src/generated/prisma"
 }
 
@@ -35,8 +64,6 @@ model User{
   name String?
   email String @unique
   role Role @default(USER)
-  emailVerified DateTime?
-  image String?
   status UserStatus @default(ACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -145,3 +172,4 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+~~~
