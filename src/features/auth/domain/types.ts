@@ -3,7 +3,7 @@ export type User = {
     name:string;
     email: string;
     role: "USER" | "MODERATOR";
-    status: boolean;
+    status: "ACTIVE" | "BLOCKED"
     createAt:string;
 }
 
