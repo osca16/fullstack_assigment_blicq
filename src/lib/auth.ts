@@ -1,44 +1,47 @@
-import type { NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/src/lib/prisma";
+import { prisma } from "./prisma";
 
-export const authOptions = {
+export const {handlers, auth, signIn, signOut} = NextAuth({
     adapter: PrismaAdapter(prisma),
-    
+
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            clientId:process.env.GOOGLE_CLIENT_ID!,
+            clientSecret:process.env.GOOGLE_CLIENT_SECRET!,
         }),
     ],
+    session:{
+        strategy:"database",
+    },
 
-    callbacks: {
-        async signIn({ user }) {
-            if (!user.email) {
+    callbacks:{
+        async session({session, user}) {
+            if (session.user){
+                session.user.id = user.id;
+                session.user.name = user.name;
+                session.user.role = user.role;
+                session.user.email = user.email;
+                session.user.status = user.status;
+            }
+            return session;
+        },
+
+        async signIn({user}){
+            const dbUser = await prisma.user.findUnique({
+                where: {email:user.email!},
+            });
+
+            if (dbUser.status === "BLOCKED"){
                 return false;
             }
-
-            const existingUser = await prisma.user.findUnique({
-                where: { email: user.email },
-            });
-
-            if (existingUser) {
-                return true;
-            }
-
-            await prisma.user.create({
-                data: {
-                    email: user.email,
-                    name: user.name,
-                    role: "USER",
-                },
-            });
-
             return true;
-        },
+        }
     },
-    session: {
-        strategy: "jwt",
+
+    pages: {
+        signIn: "/login",
+        error: "/error",
     },
-} satisfies NextAuthConfig;
+});
