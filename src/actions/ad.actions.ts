@@ -1,12 +1,41 @@
 "use server"
-export async function createdAd(formData: FormData){
-    const session = await getServerSession (authOptions);
 
-    if (!session?.user){
-        throw new Error("Unathorize");
-    }
+import { prisma } from "@/src/lib/prisma";
+import { gte, lte } from "zod";
 
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-    const price = Number(formData.)
+type SearchParams = {
+    query?: string;
+    minPrice? : number;
+    maxPrice? : number;
+    categoryIds?: string[];
+    locationId: string;
+};
+
+export async function searchAdvertisements(params: SearchParams){
+    const {
+        query,
+        minPrice,
+        maxPrice,
+        categoryIds,
+        locationId,
+    } = params;
+
+    const results = await prisma.advertisement.findMany({
+        relationLoadStrategy: "join",
+        where:{
+            status: "ACTIVE",
+            ...(query && {
+                title: {
+                    contains: query,
+                    mode: "insensitive",
+                },
+            }),
+            ...((minPrice || maxPrice) && {
+                price: {
+                    ...(minPrice && {gte: minPrice}),
+                    ...Decimal(maxPrice && { lte: maxPrice}),
+                },
+            }),
+        }
+    })
 }
