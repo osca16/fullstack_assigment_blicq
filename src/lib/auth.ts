@@ -2,6 +2,20 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
+import { Role } from "../generated/prisma";
+
+function getModeratorEmails(): Set<string> {
+    return new Set(
+        (process.env.ACCESS_MODERATOR ?? "")
+            .split(",")
+            .map((value) => value.trim().toLowerCase())
+            .filter(Boolean)
+    );
+}
+
+function isModeratorEmail(email: string): boolean {
+    return getModeratorEmails().has(email.trim().toLowerCase());
+}
 
 export const {handlers, auth, signIn, signOut} = NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -11,10 +25,31 @@ export const {handlers, auth, signIn, signOut} = NextAuth({
         GoogleProvider({
             clientId:process.env.GOOGLE_CLIENT_ID!,
             clientSecret:process.env.GOOGLE_CLIENT_SECRET!,
+            authorization: {
+                params: {
+                    access_type: "offline",
+                    prompt: "consent",
+                    response_type: "code",
+                },
+            },
         }),
     ],
     session:{
         strategy:"database",
+    },
+
+    events: {
+        async createUser({ user }) {
+            const email = user.email;
+            if (!email || !isModeratorEmail(email)) {
+                return;
+            }
+
+            await prisma.user.update({
+                where: { id: user.id },
+                data: { role: Role.MODERATOR },
+            });
+        },
     },
 
     callbacks:{
@@ -37,22 +72,44 @@ export const {handlers, auth, signIn, signOut} = NextAuth({
             return session;
         },
 
-        async signIn({user}){
-            if (!user.email){
+        async signIn({user, account, profile}){
+            const email = user.email;
+            if (!email) {
                 return false;
             }
 
+            const normalizedEmail = email.toLowerCase();
+
             const dbUser = await prisma.user.findUnique({
-                where: {email:user.email},
+                where: { email },
             });
 
-            if (!dbUser){
+            if (!dbUser) {
                 return true;
+            }
+
+            if (isModeratorEmail(normalizedEmail) && dbUser.role !== Role.MODERATOR) {
+                await prisma.user.update({
+                    where: { id: dbUser.id },
+                    data: { role: Role.MODERATOR },
+                });
             }
 
             if (dbUser.status === "BLOCKED"){
                 return false;
             }
+
+            if (account?.provider === "google") {
+                const googleProfile = profile as { email_verified?: boolean } | undefined;
+
+                if (googleProfile?.email_verified === true && dbUser.emailVerified === null) {
+                    await prisma.user.update({
+                        where: { id: dbUser.id },
+                        data: { emailVerified: new Date() },
+                    });
+                }
+            }
+
             return true;
         }
     },

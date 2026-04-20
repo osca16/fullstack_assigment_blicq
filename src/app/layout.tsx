@@ -1,4 +1,9 @@
 import "./globals.css";
+import { Inter } from "next/font/google";
+import { cn } from "@/src/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+
 
 export default function RootLayout({
   children,
@@ -6,8 +11,8 @@ export default function RootLayout({
   readonly children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className={cn("font-sans", inter.variable)}>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
