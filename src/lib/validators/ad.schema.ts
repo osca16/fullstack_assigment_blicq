@@ -19,4 +19,5 @@ export const createAdSchema = z.object({
     images:z.array(z.string()).optional(),
 });
 
+
 export type CreateAdInput = z.infer<typeof createAdSchema>;
