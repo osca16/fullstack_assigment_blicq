@@ -7,6 +7,7 @@ import {
 import { useFormStateHook } from "@/src/hooks/useFormStateHook"
 import { useRouterHook } from "@/src/hooks/useRouter.Hook"
 import { useStateHook } from "@/src/hooks/useStateHook"
+import { useEffectHook } from "@/src/hooks/useEffectHook"
 import { Button } from "@/src/components/ui/button"
 import {
   Card,
@@ -16,7 +17,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card"
-import { useEffect } from "react"
+import { type ChangeEvent } from "react"
+
+const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024
+const ALLOWED_IMAGE_MIME_TYPES = new Set(["image/png", "image/jpeg"])
 
 const initialState: CreateAdvertisementState = {
   success: false,
@@ -29,21 +33,46 @@ const initialState: CreateAdvertisementState = {
 
 export default function AdForm() {
   const router = useRouterHook()
-  const imagePath = useStateHook("")
+  const selectedImageCount = useStateHook(0)
+  const clientImageError = useStateHook("")
   const { state, formAction, isPending } = useFormStateHook(
     createAdvertisement,
     initialState
   )
 
-  useEffect(() => {
+  useEffectHook(() => {
     if (state.success) {
-      imagePath.reset()
+      selectedImageCount.reset()
+      clientImageError.reset()
       router.push("/dashboard")
       router.refresh()
     }
-  }, [state.success, imagePath, router])
+  }, [state.success, selectedImageCount, clientImageError, router])
 
   const fieldErrors = state.error?.fieldErrors ?? {}
+
+  function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(event.currentTarget.files ?? [])
+
+    const hasInvalidType = files.some((file) => !ALLOWED_IMAGE_MIME_TYPES.has(file.type))
+    if (hasInvalidType) {
+      clientImageError.setValue("Only .png and .jpg/.jpeg files are allowed")
+      selectedImageCount.setValue(0)
+      event.currentTarget.value = ""
+      return
+    }
+
+    const hasOversizedFile = files.some((file) => file.size > MAX_IMAGE_SIZE_BYTES)
+    if (hasOversizedFile) {
+      clientImageError.setValue("Each image must be 10MB or smaller")
+      selectedImageCount.setValue(0)
+      event.currentTarget.value = ""
+      return
+    }
+
+    clientImageError.reset()
+    selectedImageCount.setValue(files.length)
+  }
 
   return (
     <Card className="mx-auto w-full max-w-2xl">
@@ -132,17 +161,25 @@ export default function AdForm() {
             </div>
 
             <div className="space-y-1">
-              <label htmlFor="images" className="text-sm font-medium">Primary Image Path</label>
+              <label htmlFor="images" className="text-sm font-medium">Upload Images</label>
               <input
                 id="images"
                 name="images"
-                value={imagePath.value}
-                onChange={(event) => imagePath.setValue(event.target.value)}
+                type="file"
+                accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                multiple
+                onChange={handleImageChange}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                placeholder="/uploads/ads/1.jpg"
               />
-              {fieldErrors.images?.[0] && (
-                <p className="text-sm text-destructive">{fieldErrors.images[0]}</p>
+              <p className="text-xs text-muted-foreground">
+                Files are saved to your local path configured in ADVERTISEMENTS_SAVE_PATH_LOCAL.
+                Each image must be .png or .jpg/.jpeg and up to 10MB.
+                {selectedImageCount.value > 0 ? ` Selected: ${selectedImageCount.value}` : ""}
+              </p>
+              {(clientImageError.value || fieldErrors.images?.[0]) && (
+                <p className="text-sm text-destructive">
+                  {clientImageError.value || fieldErrors.images?.[0]}
+                </p>
               )}
             </div>
           </div>
@@ -160,7 +197,7 @@ export default function AdForm() {
           )}
 
           <CardFooter className="px-0 pb-0 pt-2">
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || Boolean(clientImageError.value)}>
               {isPending ? "Submitting..." : "Create Ad"}
             </Button>
           </CardFooter>
