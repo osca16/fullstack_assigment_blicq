@@ -1,6 +1,5 @@
 "use server"
 
-
 import { prisma } from "@/src/lib/prisma";
 import { auth } from "../lib/auth";
 import { createAdSchema } from "../lib/validators/ad.schema";
@@ -244,4 +243,50 @@ export async function searchAdvertisements(params: SearchParams){
         take:20,
     });
     return results;
+}
+
+export async function getUserAdvertisements(userId?: string) {
+    let resolvedUserId = userId;
+
+    if (!resolvedUserId) {
+        const session = await auth();
+        if (session?.user?.role !== "USER") {
+            return [];
+        }
+        resolvedUserId = session.user.id;
+    }
+
+    const ads = await prisma.advertisement.findMany({
+        where: {
+            userId: resolvedUserId,
+        },
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            price: true,
+            status: true,
+            createdAt: true,
+            location: {
+                select: {
+                    name: true,
+                },
+            },
+            images: {
+                select: {
+                    filePath: true,
+                    isPrimary: true,
+                },
+            },
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+
+    return ads.map((ad) => ({
+        ...ad,
+        price: Number(ad.price),
+        createdAt: ad.createdAt.toISOString(),
+    }));
 }
