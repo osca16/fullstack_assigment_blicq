@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/src/components/ui/button"
 import {
 	Card,
@@ -34,10 +35,13 @@ export default function MyAdCard({ ad }: MyAdCardProps) {
 	return (
 		<Card className="h-full">
 			{primaryImage && (
-				<img
+				<Image
 					src={primaryImage}
 					alt={ad.title}
+					width={800}
+					height={440}
 					className="h-44 w-full object-cover"
+					unoptimized
 				/>
 			)}
 
