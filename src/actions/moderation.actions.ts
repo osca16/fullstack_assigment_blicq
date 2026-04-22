@@ -134,3 +134,25 @@ export async function rejectAdvertisements(_prevState: unknown, formData: FormDa
         return { error: "Failed to reject advertisement" };
     }
 }
+
+export async function getPendingAdvertisements() {
+        await requireModerator();
+
+        return prisma.advertisement.findMany({
+                where: { status: "PENDING" },
+                select: {
+                        id: true,
+                        title: true,
+                        price: true,
+                        createdAt: true,
+                        user: { select: { name: true, email: true } },
+                        category: { select: { name: true } },
+                        location: { select: { name: true } },
+                        images: {
+                                where: { isPrimary: true },
+                                select: { filePath: true },
+                        },
+                },
+                orderBy: { createdAt: "desc" },
+        });
+}
