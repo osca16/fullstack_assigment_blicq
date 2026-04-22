@@ -1,7 +1,5 @@
 "use client"
 
-import { useEffect, type DependencyList, type EffectCallback } from "react"
+import { useEffect } from "react"
 
-export function useEffectHook(effect: EffectCallback, deps?: DependencyList) {
-	useEffect(effect, deps)
-}
+export const useEffectHook: typeof useEffect = useEffect
