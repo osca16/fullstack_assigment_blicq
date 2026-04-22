@@ -107,19 +107,23 @@ export async function approveAdvertisements(_prevState: ModerationActionState, f
             },
         });
 
-        sendApprovalEmail({
-            to: ad.user.email,
-            adTitle: ad.title,
-            note,
-        }).catch((error) => {
+        let emailWarning = "";
+        try {
+            await sendApprovalEmail({
+                to: ad.user.email,
+                adTitle: ad.title,
+                note,
+            });
+        } catch (error) {
             console.error("Failed to send approval email", error);
-        });
+            emailWarning = " Advertisement was approved, but acceptance email failed to send.";
+        }
 
         revalidatePath("/moderator/pending");
         revalidatePath(`/moderator/ads/${adId}`);
         revalidatePath("/moderator");
         revalidatePath("/dashboard");
-        return { success:true, message: "Advertisement approved" };
+        return { success:true, message: `Advertisement approved.${emailWarning}` };
     } catch (error) {
         console.error(error);
         return {success: false, error: "Failed to approve advertisement"};
@@ -153,19 +157,23 @@ export async function rejectAdvertisements(_prevState: ModerationActionState, fo
             },
         });
 
-        sendRejectionEmail({
-            to: ad.user.email,
-            adTitle: ad.title,
-            reason,
-        }).catch((error) => {
+        let emailWarning = "";
+        try {
+            await sendRejectionEmail({
+                to: ad.user.email,
+                adTitle: ad.title,
+                reason,
+            });
+        } catch (error) {
             console.error("Failed to send rejection email", error);
-        });
+            emailWarning = " Advertisement was rejected, but rejection email failed to send.";
+        }
 
         revalidatePath("/moderator/pending");
         revalidatePath(`/moderator/ads/${adId}`);
         revalidatePath("/moderator");
         revalidatePath("/dashboard");
-        return { success: true, message: "Advertisement rejected" };
+        return { success: true, message: `Advertisement rejected.${emailWarning}` };
     } catch (error) {
         console.error(error);
         return { success: false, error: "Failed to reject advertisement" };

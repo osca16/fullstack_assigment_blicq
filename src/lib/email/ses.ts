@@ -4,12 +4,30 @@ import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 import { buildApprovalEmailTemplate } from "./templates/approvalEmail";
 import { buildRejectionEmailTemplate } from "./templates/rejectionEmail";
 
-const ses = new SESv2Client({
-    region: process.env.AWS_REGION,
-    credentials: {
-        accessKeyId:process.env.AWS_ACCESS_KEY!,
-        secretAccessKey: process.env.AWS_SECRET_KEY!,
+function getSesConfig() {
+    const region = process.env.AWS_REGION;
+    const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+    if (!region) {
+        throw new Error("AWS_REGION is not configured");
     }
+
+    if (!accessKeyId || !secretAccessKey) {
+        throw new Error("AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY is not configured");
+    }
+
+    return { region, accessKeyId, secretAccessKey };
+}
+
+const sesConfig = getSesConfig();
+
+const ses = new SESv2Client({
+    region: sesConfig.region,
+    credentials: {
+        accessKeyId: sesConfig.accessKeyId,
+        secretAccessKey: sesConfig.secretAccessKey,
+    },
 });
 
 const transporter = nodemailer.createTransport({

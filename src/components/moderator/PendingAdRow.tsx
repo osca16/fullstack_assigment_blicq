@@ -18,7 +18,7 @@ type PendingAdRowProps = Readonly<{
 
 export default function PendingAdRow({ ad }: PendingAdRowProps) {
 	const imagePath = ad.images[0]?.filePath;
-	const createdLabel = new Date(ad.createdAt).toLocaleDateString();
+	const createdLabel = ad.createdAt.slice(0, 10);
 
 	return (
 		<Card>

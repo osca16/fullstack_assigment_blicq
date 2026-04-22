@@ -21,6 +21,11 @@ export type CreateAdvertisementState = {
     };
 };
 
+export type AdvertisementFormOption = {
+    id: string;
+    label: string;
+};
+
 function createActionError(message: string, fieldErrors?: Record<string, string[] | undefined>): CreateAdvertisementState {
     return {
         success: false,
@@ -93,6 +98,50 @@ type SearchParams = {
     categoryIds?: string[];
     locationId?: string;
 };
+
+export async function getAdvertisementFormOptions() {
+    const [categories, locations] = await Promise.all([
+        prisma.category.findMany({
+            select: {
+                id: true,
+                name: true,
+                parent: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+            orderBy: {
+                name: "asc",
+            },
+        }),
+        prisma.location.findMany({
+            select: {
+                id: true,
+                name: true,
+            },
+            orderBy: {
+                name: "asc",
+            },
+        }),
+    ]);
+
+    const categoryOptions: AdvertisementFormOption[] = categories.map((category) => ({
+        id: category.id,
+        label: category.parent ? `${category.parent.name} / ${category.name}` : category.name,
+    }));
+
+    const locationOptions: AdvertisementFormOption[] = locations.map((location) => ({
+        id: location.id,
+        label: location.name,
+    }));
+
+    return {
+        categoryOptions,
+        locationOptions,
+    };
+}
+
 export async function createAdvertisement(
     _prevState: CreateAdvertisementState,
     formData: FormData
