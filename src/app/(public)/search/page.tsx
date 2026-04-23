@@ -4,6 +4,7 @@ import CategoryNav from "@/src/components/public/CategoryNav"
 import AdCard from "@/src/components/public/AdCard"
 import Header from "@/src/components/shared/Header"
 import Footer from "@/src/components/shared/Footer"
+import { SearchResultAd } from "@/src/types"
 
 export default async function PublicSearchPage({
 	searchParams,
@@ -58,7 +59,7 @@ export default async function PublicSearchPage({
 							</div>
 						) : (
 							<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-								{ads.map((ad) => (
+								{ads.map((ad: SearchResultAd) => (
 									<AdCard key={ad.id} ad={{ ...ad, price: Number(ad.price) }} />
 								))}
 							</div>

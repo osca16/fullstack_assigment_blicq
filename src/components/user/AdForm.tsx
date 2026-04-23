@@ -1,10 +1,7 @@
 "use client"
 
-import {
-  createAdvertisement,
-  type AdvertisementFormOption,
-  type CreateAdvertisementState,
-} from "@/src/actions/ad.actions"
+import { createAdvertisement } from "@/src/actions/ad.actions"
+import { AdvertisementFormOption, CreateAdvertisementState } from "@/src/types"
 import { useFormStateHook } from "@/src/hooks/useFormStateHook"
 import { useRouterHook } from "@/src/hooks/useRouter.Hook"
 import { useStateHook } from "@/src/hooks/useStateHook"

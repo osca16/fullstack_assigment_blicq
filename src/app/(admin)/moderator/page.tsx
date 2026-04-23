@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src
 import { auth } from "@/src/lib/auth"
 import StatusCard from "@/src/components/moderator/StatusCard"
 import PendingAdRow from "@/src/components/moderator/PendingAdRow"
+import { PendingAdvertisement } from "@/src/types"
 
 export default async function ModeratorPage() {
 	const session = await auth()
@@ -74,7 +75,7 @@ export default async function ModeratorPage() {
 								No pending advertisements right now.
 							</p>
 						) : (
-							pendingAds.slice(0, 5).map((ad) => <PendingAdRow key={ad.id} ad={ad} />)
+							pendingAds.slice(0, 5).map((ad: PendingAdvertisement) => <PendingAdRow key={ad.id} ad={ad} />)
 						)}
 					</CardContent>
 				</Card>

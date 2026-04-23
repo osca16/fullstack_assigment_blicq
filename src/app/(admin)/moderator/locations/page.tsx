@@ -40,7 +40,7 @@ export default async function ModeratorLocationsPage() {
 						{locations.length === 0 ? (
 							<p className="text-sm text-muted-foreground">No locations added yet.</p>
 						) : (
-							locations.map((location) => (
+							locations.map((location: { id: string; name: string; slug: string }) => (
 								<div key={location.id} className="rounded-md border p-3">
 									<p className="text-sm font-medium">{location.name}</p>
 									<p className="text-xs text-muted-foreground">Slug: {location.slug}</p>

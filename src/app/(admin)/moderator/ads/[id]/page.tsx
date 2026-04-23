@@ -29,7 +29,7 @@ export default async function ModeratorAdPage({ params }: ModeratorAdPageProps) 
 		notFound()
 	}
 
-	const primaryImage = ad.images.find((image) => image.isPrimary)?.filePath ?? ad.images[0]?.filePath
+	const primaryImage = ad.images.find((image: { isPrimary: boolean; filePath: string }) => image.isPrimary)?.filePath ?? ad.images[0]?.filePath
 
 	return (
 		<div className="min-h-screen bg-linear-to-b from-background via-emerald-50/20 to-background">

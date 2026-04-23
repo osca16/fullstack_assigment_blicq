@@ -4,6 +4,12 @@ import { prisma } from "@/src/lib/prisma";
 import { auth } from "../lib/auth";
 import { createAdSchema } from "../lib/validators/ad.schema";
 import { revalidatePath } from "next/cache";
+import { 
+    AdvertisementFormOption, 
+    CreateAdvertisementState,
+    SearchResultAd, 
+    UserAdvertisement 
+} from "../types";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
@@ -11,20 +17,7 @@ import { randomUUID } from "node:crypto";
 const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024;
 const ALLOWED_IMAGE_MIME_TYPES = new Set(["image/png", "image/jpeg"]);
 
-export type CreateAdvertisementState = {
-    success: boolean;
-    message?: string;
-    adId?: string;
-    error?: {
-        formErrors: string[];
-        fieldErrors: Record<string, string[] | undefined>;
-    };
-};
-
-export type AdvertisementFormOption = {
-    id: string;
-    label: string;
-};
+// Types moved to src/types/index.ts
 
 function createActionError(message: string, fieldErrors?: Record<string, string[] | undefined>): CreateAdvertisementState {
     return {
@@ -245,7 +238,6 @@ export async function searchAdvertisements(params: SearchParams){
     } = params;
 
     const results = await prisma.advertisement.findMany({
-        relationLoadStrategy: "join",
         where:{
             status: "ACTIVE",
             ...(query && {
@@ -296,7 +288,10 @@ export async function searchAdvertisements(params: SearchParams){
         },
         take:20,
     });
-    return results;
+    return results.map(ad => ({
+        ...ad,
+        price: Number(ad.price)
+    })) as SearchResultAd[];
 }
 
 export async function getUserAdvertisements(userId?: string) {
@@ -342,5 +337,5 @@ export async function getUserAdvertisements(userId?: string) {
         ...ad,
         price: Number(ad.price),
         createdAt: ad.createdAt.toISOString(),
-    }));
+    })) as UserAdvertisement[];
 }

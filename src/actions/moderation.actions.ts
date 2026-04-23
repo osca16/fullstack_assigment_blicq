@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { sendApprovalEmail, sendRejectionEmail } from "../lib/email/ses";
 import { auth } from "../lib/auth";
 import { prisma } from "../lib/prisma";
+import { PendingAdvertisement } from "../types";
 
 export type ModerationActionState = {
     success: boolean;
@@ -205,7 +206,7 @@ export async function getPendingAdvertisements() {
                 ...ad,
                 price: Number(ad.price),
                 createdAt: ad.createdAt.toISOString(),
-            }));
+            })) as PendingAdvertisement[];
 }
 
 export async function getModeratorDashboardStats() {
