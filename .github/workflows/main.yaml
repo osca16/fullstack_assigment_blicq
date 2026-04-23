@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20   # safer than 24 (LTS)
           cache: "npm"
 
       # -------------------------
@@ -66,15 +66,15 @@ jobs:
       # -------------------------
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-         docker build \
-        --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
-        -t yourusername/classified-app:latest .
 
       # -------------------------
       # BUILD IMAGE
       # -------------------------
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/classified-app:latest .
+        run: |
+          docker build \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            -t ${{ secrets.DOCKER_USERNAME }}/classified-app:latest .
 
       # -------------------------
       # SECURITY: IMAGE SCAN (TRIVY)
@@ -117,7 +117,7 @@ jobs:
               -e AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
               -e AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
               -e AWS_REGION="${{ secrets.AWS_REGION }}" \
-              -e AWS_EMAIL_FROM="${{secrets.AWS_EMAIL_FROM}}" \
-              -e ACCESS_MODERATOR="${{secrets.ACCESS_MODERATOR}}" \
-              -e ADVERTISEMENTS_SAVE_PATH_LOCAL="${{secrets.ADVERTISEMENTS_SAVE_PATH_LOCAL}}" \
-              classified-app
+              -e AWS_EMAIL_FROM="${{ secrets.AWS_EMAIL_FROM }}" \
+              -e ACCESS_MODERATOR="${{ secrets.ACCESS_MODERATOR }}" \
+              -e ADVERTISEMENTS_SAVE_PATH_LOCAL="${{ secrets.ADVERTISEMENTS_SAVE_PATH_LOCAL }}" \
+              ${{ secrets.DOCKER_USERNAME }}/classified-app:latest
