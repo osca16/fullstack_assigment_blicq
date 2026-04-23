@@ -80,7 +80,7 @@ export default function AdForm({ categories = [], locations = [] }: AdFormProps)
     if (hasInvalidType) {
       clientImageError.setValue("Only .png and .jpg/.jpeg files are allowed")
       selectedImageCount.setValue(0)
-      imagePreviews.value.forEach((preview) => URL.revokeObjectURL(preview.url))
+      imagePreviews.value.forEach((preview: { url: string; name: string }) => URL.revokeObjectURL(preview.url))
       imagePreviews.setValue([])
       event.currentTarget.value = ""
       return
@@ -90,7 +90,7 @@ export default function AdForm({ categories = [], locations = [] }: AdFormProps)
     if (hasOversizedFile) {
       clientImageError.setValue("Each image must be 10MB or smaller")
       selectedImageCount.setValue(0)
-      imagePreviews.value.forEach((preview) => URL.revokeObjectURL(preview.url))
+      imagePreviews.value.forEach((preview: { url: string; name: string }) => URL.revokeObjectURL(preview.url))
       imagePreviews.setValue([])
       event.currentTarget.value = ""
       return
@@ -249,7 +249,7 @@ export default function AdForm({ categories = [], locations = [] }: AdFormProps)
             <div className="space-y-2">
               <h3 className="text-sm font-medium">Image Previews</h3>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                {imagePreviews.value.map((preview, index) => (
+                {imagePreviews.value.map((preview: { url: string; name: string }, index: number) => (
                   <div
                     key={`${preview.name}-${index}`}
                     className="group relative aspect-square overflow-hidden rounded-lg border border-border bg-muted"

@@ -1,6 +1,6 @@
 "use server"
 
-import { prisma } from "@/src/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { auth } from "../lib/auth";
 import { createAdSchema } from "../lib/validators/ad.schema";
 import { revalidatePath } from "next/cache";
@@ -120,12 +120,12 @@ export async function getAdvertisementFormOptions() {
         }),
     ]);
 
-    const categoryOptions: AdvertisementFormOption[] = categories.map((category) => ({
+    const categoryOptions: AdvertisementFormOption[] = categories.map((category: { id: string; name: string; parent: { name: string } | null }) => ({
         id: category.id,
         label: category.parent ? `${category.parent.name} / ${category.name}` : category.name,
     }));
 
-    const locationOptions: AdvertisementFormOption[] = locations.map((location) => ({
+    const locationOptions: AdvertisementFormOption[] = locations.map((location: { id: string; name: string }) => ({
         id: location.id,
         label: location.name,
     }));
@@ -288,7 +288,7 @@ export async function searchAdvertisements(params: SearchParams) {
         },
         take: 20,
     });
-    return results.map(ad => ({
+    return results.map((ad) => ({
         ...ad,
         price: Number(ad.price)
     })) as SearchResultAd[];

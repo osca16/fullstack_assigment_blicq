@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
-import { Role } from "@/src/generated/prisma";
+import { Role } from "@/generated/prisma/index";
 
 function getModeratorEmails(): Set<string> {
     return new Set(
@@ -18,7 +18,8 @@ function isModeratorEmail(email: string): boolean {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-    adapter: PrismaAdapter(prisma),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    adapter: PrismaAdapter(prisma as any),
     secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
 
     providers: [
