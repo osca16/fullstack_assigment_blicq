@@ -244,6 +244,7 @@ export async function searchAdvertisements(params: SearchParams){
     } = params;
 
     const results = await prisma.advertisement.findMany({
+        relationLoadStrategy: "join",
         where:{
             status: "ACTIVE",
             ...(query && {
@@ -278,6 +279,9 @@ export async function searchAdvertisements(params: SearchParams){
             price:true,
 
             location: {
+                select: { name:true },
+            },
+            category: {
                 select: { name:true },
             },
             images: {
