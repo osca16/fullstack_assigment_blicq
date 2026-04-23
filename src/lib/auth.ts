@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
-import { Role } from "../generated/prisma";
+import { Role } from "@/src/generated/prisma";
 
 function getModeratorEmails(): Set<string> {
     return new Set(
