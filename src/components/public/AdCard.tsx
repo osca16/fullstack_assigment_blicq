@@ -1,7 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card"
 import { MapPin } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card"
+import { getAdImageUrl, PLACEHOLDER_IMAGE_URL } from "@/src/lib/image-utils"
 
 type AdCardProps = {
 	ad: {
@@ -18,19 +19,22 @@ type AdCardProps = {
 }
 
 export default function AdCard({ ad }: AdCardProps) {
-	const primaryImage = ad.images[0]?.filePath ?? "/placeholder-image.jpg" // Fallback if no image
+	// Business logic: resolve the stored filePath to a browser-accessible URL.
+	const primaryImageUrl = ad.images[0]?.filePath
+		? getAdImageUrl(ad.images[0].filePath)
+		: PLACEHOLDER_IMAGE_URL
 
 	return (
-		<Link href={`/ad/${ad.id}`} className="block transition-transform duration-200 hover:scale-[1.02]">
+		<Link href={`/ads/${ad.id}`} className="block transition-transform duration-200 hover:scale-[1.02]">
 			<Card className="h-full overflow-hidden hover:border-primary/50 hover:shadow-md">
 				<div className="relative aspect-[4/3] w-full bg-muted">
 					<Image
-						src={primaryImage}
+						src={primaryImageUrl}
 						alt={ad.title}
 						fill
 						className="object-cover"
 						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-						unoptimized={!primaryImage.startsWith("http")}
+						unoptimized
 					/>
 				</div>
 				<CardHeader className="p-4 pb-2">

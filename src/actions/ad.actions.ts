@@ -56,7 +56,7 @@ async function saveUploadedImagesLocally(files: File[]) {
 
     await mkdir(saveRoot, { recursive: true });
 
-    const savedPaths: string[] = [];
+    const savedFilenames: string[] = [];
 
     for (const file of files) {
         const extension = getImageFileExtension(file);
@@ -65,10 +65,11 @@ async function saveUploadedImagesLocally(files: File[]) {
         const fileBuffer = Buffer.from(await file.arrayBuffer());
 
         await writeFile(absolutePath, fileBuffer);
-        savedPaths.push(absolutePath);
+        // Store only the filename — the API route handles resolving the full path.
+        savedFilenames.push(fileName);
     }
 
-    return savedPaths;
+    return savedFilenames;
 }
 
 function validateUploadedImages(files: File[]) {
@@ -198,10 +199,10 @@ export async function createAdvertisement(
     }
     const data = validated.data;
 
-    let imagePaths: string[] = [];
+    let imageFilenames: string[] = [];
     try {
         if (uploadedFiles.length > 0) {
-            imagePaths = await saveUploadedImagesLocally(uploadedFiles);
+            imageFilenames = await saveUploadedImagesLocally(uploadedFiles);
         }
     } catch (error) {
         const message = error instanceof Error ? error.message : "Failed to save uploaded images";
@@ -218,8 +219,8 @@ export async function createAdvertisement(
             userId: session.user.id,
             
             images:{
-                create:imagePaths.map((path, index) => ({
-                    filePath :path,
+                create:imageFilenames.map((filename, index) => ({
+                    filePath: filename,
                     isPrimary: index === 0,
                 })),
             },

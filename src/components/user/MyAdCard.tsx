@@ -9,6 +9,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/src/components/ui/card"
+import { getAdImageUrl, PLACEHOLDER_IMAGE_URL } from "@/src/lib/image-utils"
 
 type MyAdCardProps = Readonly<{
 	ad: {
@@ -24,7 +25,10 @@ type MyAdCardProps = Readonly<{
 }>
 
 export default function MyAdCard({ ad }: MyAdCardProps) {
-	const primaryImage = ad.images?.find((image) => image.isPrimary)?.filePath ?? ad.images?.[0]?.filePath
+	// Business logic: resolve the primary image to a browser-accessible URL.
+	const primaryFilePath =
+		ad.images?.find((image) => image.isPrimary)?.filePath ?? ad.images?.[0]?.filePath
+	const primaryImageUrl = getAdImageUrl(primaryFilePath) 
 
 	const statusClassName = {
 		PENDING: "bg-amber-100 text-amber-700 border-amber-200",
@@ -34,16 +38,16 @@ export default function MyAdCard({ ad }: MyAdCardProps) {
 
 	return (
 		<Card className="h-full">
-			{primaryImage && (
+			<div className="relative h-44 w-full overflow-hidden rounded-t-lg bg-muted">
 				<Image
-					src={primaryImage}
+					src={primaryImageUrl}
 					alt={ad.title}
-					width={800}
-					height={440}
-					className="h-44 w-full object-cover"
+					fill
+					className="object-cover"
+					sizes="(max-width: 768px) 100vw, 400px"
 					unoptimized
 				/>
-			)}
+			</div>
 
 			<CardHeader>
 				<div className="flex items-start justify-between gap-3">
