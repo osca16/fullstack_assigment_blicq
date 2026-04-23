@@ -14,8 +14,8 @@ export default async function Header({ activePath }: HeaderProps) {
     const role = session?.user?.role  // "USER" | "MODERATOR" | undefined
 
     const isModerator = role === "MODERATOR"
-    const isUser      = role === "USER"
-    const isGuest     = !session?.user
+    const isUser = role === "USER"
+    const isGuest = !session?.user
 
     /** Returns "default" variant when this path is active, otherwise "ghost". */
     function navVariant(path: string): "default" | "ghost" {
@@ -71,8 +71,8 @@ export default async function Header({ activePath }: HeaderProps) {
                     {/* ── MODERATOR ── Dashboard + Sign out only */}
                     {isModerator && (
                         <>
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="/moderator/pending" prefetch={false}>Dashboard</Link>
+                            <Button asChild variant={navVariant("/moderator")} size="sm">
+                                <Link href="/moderator" prefetch={false}>Moderator Dashboard</Link>
                             </Button>
                             <form action={logout}>
                                 <Button type="submit" variant="outline" size="sm">

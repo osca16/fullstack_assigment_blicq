@@ -27,7 +27,7 @@ export default async function ModeratorPage() {
 
 	return (
 		<div className="min-h-screen bg-linear-to-b from-background via-emerald-50/40 to-background">
-			<Header />
+			<Header activePath="/moderator" />
 			<main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
 				<div className="flex flex-wrap items-start justify-between gap-3">
 					<div>

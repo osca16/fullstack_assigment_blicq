@@ -6,21 +6,21 @@ import Header from "@/src/components/shared/Header"
 import Footer from "@/src/components/shared/Footer"
 
 export default async function PublicSearchPage({
-  searchParams,
+	searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
 	const params = await searchParams;
-	
+
 	const query = typeof params.query === "string" ? params.query : undefined;
 	const minPrice = typeof params.minPrice === "string" ? Number(params.minPrice) : undefined;
 	const maxPrice = typeof params.maxPrice === "string" ? Number(params.maxPrice) : undefined;
-	
+
 	let categoryIds: string[] | undefined = undefined;
 	if (params.categoryIds) {
 		categoryIds = Array.isArray(params.categoryIds) ? params.categoryIds : [params.categoryIds];
 	}
-	
+
 	const locationId = typeof params.locationId === "string" ? params.locationId : undefined;
 
 	const [ads, options] = await Promise.all([
@@ -36,7 +36,7 @@ export default async function PublicSearchPage({
 			<main className="flex-1 container mx-auto px-4 py-8">
 				<div className="mb-8">
 					<h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4 text-foreground">
-						Discover Listings
+						Marketplace
 					</h1>
 					<SearchBar />
 				</div>
@@ -59,7 +59,7 @@ export default async function PublicSearchPage({
 						) : (
 							<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 								{ads.map((ad) => (
-									<AdCard key={ad.id} ad={{...ad, price: Number(ad.price)}} />
+									<AdCard key={ad.id} ad={{ ...ad, price: Number(ad.price) }} />
 								))}
 							</div>
 						)}
