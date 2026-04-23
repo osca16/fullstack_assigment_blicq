@@ -1,14 +1,14 @@
 "use server"
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/src/lib/prisma";
 import { auth } from "../lib/auth";
 import { createAdSchema } from "../lib/validators/ad.schema";
 import { revalidatePath } from "next/cache";
-import { 
-    AdvertisementFormOption, 
+import {
+    AdvertisementFormOption,
     CreateAdvertisementState,
-    SearchResultAd, 
-    UserAdvertisement 
+    SearchResultAd,
+    UserAdvertisement
 } from "../types";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -87,8 +87,8 @@ function validateUploadedImages(files: File[]) {
 
 type SearchParams = {
     query?: string;
-    minPrice? : number;
-    maxPrice? : number;
+    minPrice?: number;
+    maxPrice?: number;
     categoryIds?: string[];
     locationId?: string;
 };
@@ -120,12 +120,12 @@ export async function getAdvertisementFormOptions() {
         }),
     ]);
 
-    const categoryOptions: AdvertisementFormOption[] = categories.map((category: { id: string; name: string; parent: { name: string } | null }) => ({
+    const categoryOptions: AdvertisementFormOption[] = categories.map((category) => ({
         id: category.id,
         label: category.parent ? `${category.parent.name} / ${category.name}` : category.name,
     }));
 
-    const locationOptions: AdvertisementFormOption[] = locations.map((location: { id: string; name: string }) => ({
+    const locationOptions: AdvertisementFormOption[] = locations.map((location) => ({
         id: location.id,
         label: location.name,
     }));
@@ -142,11 +142,11 @@ export async function createAdvertisement(
 ): Promise<CreateAdvertisementState> {
     const session = await auth();
 
-    if (!session?.user){
+    if (!session?.user) {
         return createActionError("Unauthorized: please login");
     }
-    
-    if (session.user.role !== "USER"){
+
+    if (session.user.role !== "USER") {
         return createActionError("Only registered users can post ads");
     }
 
@@ -168,7 +168,7 @@ export async function createAdvertisement(
     };
 
     const validated = createAdSchema.safeParse(rawData);
-    if(!validated.success){
+    if (!validated.success) {
         const fieldErrors: Record<string, string[] | undefined> = {};
 
         for (const issue of validated.error.issues) {
@@ -179,7 +179,7 @@ export async function createAdvertisement(
             fieldErrors[key] = [...(fieldErrors[key] ?? []), issue.message];
         }
 
-        return{
+        return {
             success: false,
             message: "Please correct the highlighted fields",
             error: {
@@ -203,16 +203,16 @@ export async function createAdvertisement(
     }
 
     const ad = await prisma.advertisement.create({
-        data:{
-            title:data.title,
-            description:data.description,
-            price:Number(data.price),
+        data: {
+            title: data.title,
+            description: data.description,
+            price: Number(data.price),
             categoryId: data.categoryId,
             locationId: data.locationId,
             userId: session.user.id,
-            
-            images:{
-                create:imageFilenames.map((filename, index) => ({
+
+            images: {
+                create: imageFilenames.map((filename, index) => ({
                     filePath: filename,
                     isPrimary: index === 0,
                 })),
@@ -228,7 +228,7 @@ export async function createAdvertisement(
     };
 }
 
-export async function searchAdvertisements(params: SearchParams){
+export async function searchAdvertisements(params: SearchParams) {
     const {
         query,
         minPrice,
@@ -238,7 +238,7 @@ export async function searchAdvertisements(params: SearchParams){
     } = params;
 
     const results = await prisma.advertisement.findMany({
-        where:{
+        where: {
             status: "ACTIVE",
             ...(query && {
                 title: {
@@ -248,8 +248,8 @@ export async function searchAdvertisements(params: SearchParams){
             }),
             ...((minPrice || maxPrice) && {
                 price: {
-                    ...(minPrice !== undefined && {gte: minPrice}),
-                    ...(maxPrice !== undefined && { lte: maxPrice}),
+                    ...(minPrice !== undefined && { gte: minPrice }),
+                    ...(maxPrice !== undefined && { lte: maxPrice }),
                 },
             }),
             ...(categoryIds?.length && {
@@ -261,34 +261,34 @@ export async function searchAdvertisements(params: SearchParams){
                 locationId: locationId,
             }),
 
-            user:{
-                status:"ACTIVE",
+            user: {
+                status: "ACTIVE",
             },
         },
 
         select: {
-            id:true,
-            title:true,
-            price:true,
+            id: true,
+            title: true,
+            price: true,
 
             location: {
-                select: { name:true },
+                select: { name: true },
             },
             category: {
-                select: { name:true },
+                select: { name: true },
             },
             images: {
-                where: { isPrimary:true },
-                select: { filePath:true },
+                where: { isPrimary: true },
+                select: { filePath: true },
             },
         },
 
         orderBy: {
             createdAt: "desc",
         },
-        take:20,
+        take: 20,
     });
-    return results.map((ad) => ({
+    return results.map(ad => ({
         ...ad,
         price: Number(ad.price)
     })) as SearchResultAd[];

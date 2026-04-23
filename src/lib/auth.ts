@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
-import { Role } from "@prisma/client";
+import { Role } from "@/src/generated/prisma";
 
 function getModeratorEmails(): Set<string> {
     return new Set(
@@ -17,14 +17,14 @@ function isModeratorEmail(email: string): boolean {
     return getModeratorEmails().has(email.trim().toLowerCase());
 }
 
-export const {handlers, auth, signIn, signOut} = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
     adapter: PrismaAdapter(prisma),
     secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
 
     providers: [
         GoogleProvider({
-            clientId:process.env.GOOGLE_CLIENT_ID!,
-            clientSecret:process.env.GOOGLE_CLIENT_SECRET!,
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
             authorization: {
                 params: {
                     access_type: "offline",
@@ -34,8 +34,8 @@ export const {handlers, auth, signIn, signOut} = NextAuth({
             },
         }),
     ],
-    session:{
-        strategy:"database",
+    session: {
+        strategy: "database",
     },
 
     events: {
@@ -52,16 +52,16 @@ export const {handlers, auth, signIn, signOut} = NextAuth({
         },
     },
 
-    callbacks:{
-        async session({session, user}) {
-            if (session.user){
+    callbacks: {
+        async session({ session, user }) {
+            if (session.user) {
                 session.user.id = user.id;
 
                 const dbUser = await prisma.user.findUnique({
-                    where:{id:user.id},
-                    select: {id: true, name: true, email: true, role: true, status:true},
+                    where: { id: user.id },
+                    select: { id: true, name: true, email: true, role: true, status: true },
                 });
-                if(dbUser){
+                if (dbUser) {
                     session.user.role = dbUser.role;
                     session.user.name = dbUser.name;
                     session.user.email = dbUser.email;
@@ -72,7 +72,7 @@ export const {handlers, auth, signIn, signOut} = NextAuth({
             return session;
         },
 
-        async signIn({user, account, profile}){
+        async signIn({ user, account, profile }) {
             const email = user.email;
             if (!email) {
                 return false;
@@ -95,7 +95,7 @@ export const {handlers, auth, signIn, signOut} = NextAuth({
                 });
             }
 
-            if (dbUser.status === "BLOCKED"){
+            if (dbUser.status === "BLOCKED") {
                 return false;
             }
 
