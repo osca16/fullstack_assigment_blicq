@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation"
-import { auth } from "@/src/lib/auth"
-import { prisma } from "@/src/lib/prisma"
-import Header from "@/src/components/shared/Header"
-import Footer from "@/src/components/shared/Footer"
-import AdDetail from "@/src/components/public/AdDetail"
+import { auth } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
+import Header from "@/components/shared/Header"
+import Footer from "@/components/shared/Footer"
+import AdDetail from "@/components/public/AdDetail"
 
 type PublicAdDetailPageProps = Readonly<{
 	params: Promise<{ id: string }>

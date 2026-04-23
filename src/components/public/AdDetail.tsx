@@ -1,9 +1,9 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/src/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPin } from "lucide-react"
-import { getAdImageUrl } from "@/src/lib/image-utils"
+import { getAdImageUrl } from "@/lib/image-utils"
 
 type AdDetailProps = Readonly<{
 	ad: {

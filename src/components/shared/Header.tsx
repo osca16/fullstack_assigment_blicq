@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { auth } from "@/src/lib/auth"
-import { logout } from "@/src/actions/auth.actions"
-import { Button } from "@/src/components/ui/button"
+import { auth } from "@/lib/auth"
+import { logout } from "@/actions/auth.actions"
+import { Button } from "@/components/ui/button"
 
 type HeaderProps = Readonly<{
     /** Pathname of the currently active page (e.g. "/search").

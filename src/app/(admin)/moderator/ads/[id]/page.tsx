@@ -1,11 +1,11 @@
 import { notFound, redirect } from "next/navigation"
 import Image from "next/image"
-import { getAdvertisementForModeration } from "@/src/actions/moderation.actions"
-import ReviewPanel from "@/src/components/moderator/ReviewPanel"
-import Footer from "@/src/components/shared/Footer"
-import Header from "@/src/components/shared/Header"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { auth } from "@/src/lib/auth"
+import { getAdvertisementForModeration } from "@/actions/moderation.actions"
+import ReviewPanel from "@/components/moderator/ReviewPanel"
+import Footer from "@/components/shared/Footer"
+import Header from "@/components/shared/Header"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
 
 type ModeratorAdPageProps = Readonly<{
 	params: Promise<{ id: string }>

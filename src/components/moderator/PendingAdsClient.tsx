@@ -1,7 +1,7 @@
 "use client"
 
-import PendingAdRow from "@/src/components/moderator/PendingAdRow"
-import { useModeratorPendingFilterHook } from "@/src/hooks/useModeratorPendingFilterHook"
+import PendingAdRow from "@/components/moderator/PendingAdRow"
+import { useModeratorPendingFilterHook } from "@/hooks/useModeratorPendingFilterHook"
 
 type PendingAd = {
 	id: string

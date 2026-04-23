@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation"
-import { getPendingAdvertisements } from "@/src/actions/moderation.actions"
-import PendingAdsClient from "@/src/components/moderator/PendingAdsClient"
-import Footer from "@/src/components/shared/Footer"
-import Header from "@/src/components/shared/Header"
-import { auth } from "@/src/lib/auth"
+import { getPendingAdvertisements } from "@/actions/moderation.actions"
+import PendingAdsClient from "@/components/moderator/PendingAdsClient"
+import Footer from "@/components/shared/Footer"
+import Header from "@/components/shared/Header"
+import { auth } from "@/lib/auth"
 
 export default async function ModeratorPendingPage() {
 	const session = await auth()

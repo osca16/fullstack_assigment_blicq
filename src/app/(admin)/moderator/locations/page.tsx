@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation"
-import { createLocation, getLocations } from "@/src/actions/moderation.actions"
-import ModeratorFormCard from "@/src/components/moderator/ModeratorFormCard"
-import Footer from "@/src/components/shared/Footer"
-import Header from "@/src/components/shared/Header"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { auth } from "@/src/lib/auth"
+import { createLocation, getLocations } from "@/actions/moderation.actions"
+import ModeratorFormCard from "@/components/moderator/ModeratorFormCard"
+import Footer from "@/components/shared/Footer"
+import Header from "@/components/shared/Header"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
 
 export default async function ModeratorLocationsPage() {
 	const session = await auth()

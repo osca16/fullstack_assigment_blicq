@@ -1,6 +1,6 @@
-import AdForm from "@/src/components/user/AdForm";
-import { getAdvertisementFormOptions } from "@/src/actions/ad.actions";
-import { auth } from "@/src/lib/auth";
+import AdForm from "@/components/user/AdForm";
+import { getAdvertisementFormOptions } from "@/actions/ad.actions";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function NewAdPage() {

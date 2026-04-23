@@ -1,11 +1,11 @@
 import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
-import Footer from "@/src/components/shared/Footer"
-import Header from "@/src/components/shared/Header"
-import { Button } from "@/src/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { auth } from "@/src/lib/auth"
-import { prisma } from "@/src/lib/prisma"
+import Footer from "@/components/shared/Footer"
+import Header from "@/components/shared/Header"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
 
 type EditAdPageProps = Readonly<{
 	params: Promise<{ id: string }>

@@ -1,4 +1,4 @@
-import { AdStatus } from "@/src/generated/prisma/index";
+import { AdStatus } from "@/generated/prisma/index";
 
 export type Category = {
     id: string;

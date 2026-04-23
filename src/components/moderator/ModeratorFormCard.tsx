@@ -1,9 +1,9 @@
 "use client"
 
-import { type ModerationActionState } from "@/src/actions/moderation.actions"
-import { Button } from "@/src/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { useFormStateHook } from "@/src/hooks/useFormStateHook"
+import { type ModerationActionState } from "@/actions/moderation.actions"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useFormStateHook } from "@/hooks/useFormStateHook"
 
 type ModeratorFormCardProps = Readonly<{
 	title: string

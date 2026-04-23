@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffectHook } from "@/src/hooks/useEffectHook"
-import { useRouterHook } from "@/src/hooks/useRouter.Hook"
-import { useSessionHook } from "@/src/hooks/useSessionHook"
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card"
+import { useEffectHook } from "@/hooks/useEffectHook"
+import { useRouterHook } from "@/hooks/useRouter.Hook"
+import { useSessionHook } from "@/hooks/useSessionHook"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 type AuthGuardProps = Readonly<{
 	children: React.ReactNode

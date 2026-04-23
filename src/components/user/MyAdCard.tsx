@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/src/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
 	Card,
 	CardContent,
@@ -8,8 +8,8 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@/src/components/ui/card"
-import { getAdImageUrl } from "@/src/lib/image-utils"
+} from "@/components/ui/card"
+import { getAdImageUrl } from "@/lib/image-utils"
 
 type MyAdCardProps = Readonly<{
 	ad: {

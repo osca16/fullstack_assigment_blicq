@@ -1,10 +1,10 @@
 "use client"
 
-import { useSearchParamsHook } from "@/src/hooks/useSearchParamsHook"
-import { useStateHook } from "@/src/hooks/useStateHook"
-import { useRouterHook } from "@/src/hooks/useRouter.Hook"
+import { useSearchParamsHook } from "@/hooks/useSearchParamsHook"
+import { useStateHook } from "@/hooks/useStateHook"
+import { useRouterHook } from "@/hooks/useRouter.Hook"
 import { Search } from "lucide-react"
-import { Button } from "@/src/components/ui/button"
+import { Button } from "@/components/ui/button"
 
 export default function SearchBar() {
 	const { searchParams, pathname } = useSearchParamsHook()

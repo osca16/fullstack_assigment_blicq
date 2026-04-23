@@ -1,10 +1,10 @@
-import { searchAdvertisements, getAdvertisementFormOptions } from "@/src/actions/ad.actions"
-import SearchBar from "@/src/components/public/SearchBar"
-import CategoryNav from "@/src/components/public/CategoryNav"
-import AdCard from "@/src/components/public/AdCard"
-import Header from "@/src/components/shared/Header"
-import Footer from "@/src/components/shared/Footer"
-import { SearchResultAd } from "@/src/types"
+import { searchAdvertisements, getAdvertisementFormOptions } from "@/actions/ad.actions"
+import SearchBar from "@/components/public/SearchBar"
+import CategoryNav from "@/components/public/CategoryNav"
+import AdCard from "@/components/public/AdCard"
+import Header from "@/components/shared/Header"
+import Footer from "@/components/shared/Footer"
+import { SearchResultAd } from "@/types"
 
 export default async function PublicSearchPage({
 	searchParams,

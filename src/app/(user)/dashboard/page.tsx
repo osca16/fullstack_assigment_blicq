@@ -1,10 +1,10 @@
-import { auth } from "@/src/lib/auth"
+import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { getUserAdvertisements } from "@/src/actions/ad.actions"
-import Header from "@/src/components/shared/Header"
-import Footer from "@/src/components/shared/Footer"
-import AuthGuard from "@/src/components/shared/AuthGuard"
-import UserDashboardClient from "@/src/components/user/UserDashboardClient"
+import { getUserAdvertisements } from "@/actions/ad.actions"
+import Header from "@/components/shared/Header"
+import Footer from "@/components/shared/Footer"
+import AuthGuard from "@/components/shared/AuthGuard"
+import UserDashboardClient from "@/components/user/UserDashboardClient"
 
 export default async function UserDashboardPage() {
 	const session = await auth()

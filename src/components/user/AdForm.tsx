@@ -1,12 +1,12 @@
 "use client"
 
-import { createAdvertisement } from "@/src/actions/ad.actions"
-import { AdvertisementFormOption, CreateAdvertisementState } from "@/src/types"
-import { useFormStateHook } from "@/src/hooks/useFormStateHook"
-import { useRouterHook } from "@/src/hooks/useRouter.Hook"
-import { useStateHook } from "@/src/hooks/useStateHook"
-import { useEffectHook } from "@/src/hooks/useEffectHook"
-import { Button } from "@/src/components/ui/button"
+import { createAdvertisement } from "@/actions/ad.actions"
+import { AdvertisementFormOption, CreateAdvertisementState } from "@/types"
+import { useFormStateHook } from "@/hooks/useFormStateHook"
+import { useRouterHook } from "@/hooks/useRouter.Hook"
+import { useStateHook } from "@/hooks/useStateHook"
+import { useEffectHook } from "@/hooks/useEffectHook"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -14,7 +14,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card"
+} from "@/components/ui/card"
 import Image from "next/image"
 import { type ChangeEvent } from "react"
 

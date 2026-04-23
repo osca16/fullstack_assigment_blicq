@@ -1,7 +1,7 @@
-import { loginWithGoogle } from "@/src/actions/auth.actions";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src/components/ui/card";
-import { Button } from "@/src/components/ui/button";
-import { auth } from "@/src/lib/auth";
+import { loginWithGoogle } from "@/actions/auth.actions";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {

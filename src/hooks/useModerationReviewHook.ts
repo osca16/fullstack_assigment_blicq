@@ -1,6 +1,6 @@
 "use client"
 
-import { useStateHook } from "@/src/hooks/useStateHook"
+import { useStateHook } from "@/hooks/useStateHook"
 
 export function useModerationReviewHook() {
 	const modeState = useStateHook<"approve" | "reject">("approve")

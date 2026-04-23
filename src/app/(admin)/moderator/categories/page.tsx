@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation"
-import { createCategory, getCategories } from "@/src/actions/moderation.actions"
-import ModeratorFormCard from "@/src/components/moderator/ModeratorFormCard"
-import Footer from "@/src/components/shared/Footer"
-import Header from "@/src/components/shared/Header"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { auth } from "@/src/lib/auth"
+import { createCategory, getCategories } from "@/actions/moderation.actions"
+import ModeratorFormCard from "@/components/moderator/ModeratorFormCard"
+import Footer from "@/components/shared/Footer"
+import Header from "@/components/shared/Header"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
 
-import { Category } from "@/src/types"
+import { Category } from "@/types"
 
 export default async function ModeratorCategoriesPage() {
 	const session = await auth()

@@ -1,13 +1,13 @@
 "use client"
 
-import { approveAdvertisements, rejectAdvertisements, type ModerationActionState } from "@/src/actions/moderation.actions"
-import { Button } from "@/src/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { useEffectHook } from "@/src/hooks/useEffectHook"
-import { useFormStateHook } from "@/src/hooks/useFormStateHook"
-import { useModerationReviewHook } from "@/src/hooks/useModerationReviewHook"
-import { useRouterHook } from "@/src/hooks/useRouter.Hook"
-import { useStateHook } from "@/src/hooks/useStateHook"
+import { approveAdvertisements, rejectAdvertisements, type ModerationActionState } from "@/actions/moderation.actions"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useEffectHook } from "@/hooks/useEffectHook"
+import { useFormStateHook } from "@/hooks/useFormStateHook"
+import { useModerationReviewHook } from "@/hooks/useModerationReviewHook"
+import { useRouterHook } from "@/hooks/useRouter.Hook"
+import { useStateHook } from "@/hooks/useStateHook"
 
 type ReviewPanelProps = Readonly<{
 	adId: string

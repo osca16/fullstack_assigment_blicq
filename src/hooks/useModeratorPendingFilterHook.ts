@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
-import { useStateHook } from "@/src/hooks/useStateHook"
+import { useStateHook } from "@/hooks/useStateHook"
 
 type PendingAd = {
 	id: string

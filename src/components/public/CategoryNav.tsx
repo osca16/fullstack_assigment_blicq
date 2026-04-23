@@ -1,8 +1,8 @@
 "use client"
 
-import { useSearchParamsHook } from "@/src/hooks/useSearchParamsHook"
-import { useRouterHook } from "@/src/hooks/useRouter.Hook"
-import { Button } from "@/src/components/ui/button"
+import { useSearchParamsHook } from "@/hooks/useSearchParamsHook"
+import { useRouterHook } from "@/hooks/useRouter.Hook"
+import { Button } from "@/components/ui/button"
 
 type Category = {
     id: string

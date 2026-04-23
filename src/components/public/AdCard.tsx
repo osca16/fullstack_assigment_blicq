@@ -1,8 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { MapPin } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { getAdImageUrl, PLACEHOLDER_IMAGE_URL } from "@/src/lib/image-utils"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { getAdImageUrl, PLACEHOLDER_IMAGE_URL } from "@/lib/image-utils"
 
 type AdCardProps = {
 	ad: {

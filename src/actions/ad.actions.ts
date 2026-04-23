@@ -1,6 +1,6 @@
 "use server"
 
-import { prisma } from "@/src/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { auth } from "../lib/auth";
 import { createAdSchema } from "../lib/validators/ad.schema";
 import { revalidatePath } from "next/cache";

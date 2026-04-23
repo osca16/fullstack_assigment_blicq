@@ -1,14 +1,14 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { getModeratorDashboardStats, getPendingAdvertisements } from "@/src/actions/moderation.actions"
-import Footer from "@/src/components/shared/Footer"
-import Header from "@/src/components/shared/Header"
-import { Button } from "@/src/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { auth } from "@/src/lib/auth"
-import StatusCard from "@/src/components/moderator/StatusCard"
-import PendingAdRow from "@/src/components/moderator/PendingAdRow"
-import { PendingAdvertisement } from "@/src/types"
+import { getModeratorDashboardStats, getPendingAdvertisements } from "@/actions/moderation.actions"
+import Footer from "@/components/shared/Footer"
+import Header from "@/components/shared/Header"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
+import StatusCard from "@/components/moderator/StatusCard"
+import PendingAdRow from "@/components/moderator/PendingAdRow"
+import { PendingAdvertisement } from "@/types"
 
 export default async function ModeratorPage() {
 	const session = await auth()
