@@ -20,19 +20,28 @@ function getSesConfig() {
     return { region, accessKeyId, secretAccessKey };
 }
 
-const sesConfig = getSesConfig();
+let sesClient: SESv2Client | null = null;
+let transporter: ReturnType<typeof nodemailer.createTransport> | null = null;
 
-const ses = new SESv2Client({
-    region: sesConfig.region,
-    credentials: {
-        accessKeyId: sesConfig.accessKeyId,
-        secretAccessKey: sesConfig.secretAccessKey,
-    },
-});
+function getTransporter() {
+    if (transporter) return transporter;
 
-const transporter = nodemailer.createTransport({
-    SES: { sesClient: ses, SendEmailCommand },
-});
+    const { region, accessKeyId, secretAccessKey } = getSesConfig();
+
+    sesClient = new SESv2Client({
+        region,
+        credentials: {
+            accessKeyId,
+            secretAccessKey,
+        },
+    });
+
+    transporter = nodemailer.createTransport({
+        SES: { sesClient, SendEmailCommand },
+    });
+
+    return transporter;
+}
 
 function getFromEmailAddress() {
     const from = process.env.AWS_EMAIL_FROM;
@@ -53,7 +62,7 @@ export async function sendApprovalEmail({
 }) {
     const template = buildApprovalEmailTemplate({ adTitle, note });
 
-    await transporter.sendMail({
+    await getTransporter().sendMail({
         from: getFromEmailAddress(),
         to,
         subject: template.subject,
@@ -73,7 +82,7 @@ export async function sendRejectionEmail({
 }) {
     const template = buildRejectionEmailTemplate({ adTitle, reason });
 
-    await transporter.sendMail({
+    await getTransporter().sendMail({
         from: getFromEmailAddress(),
         to,
         subject: template.subject,
