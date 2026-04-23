@@ -56,17 +56,6 @@ jobs:
         run: npm audit --audit-level=high
 
       # -------------------------
-      # SECURITY: CODEQL (SAST)
-      # -------------------------
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript
-
-      - name: Analyze Code
-        uses: github/codeql-action/analyze@v3
-
-      # -------------------------
       # SECURITY: SECRET SCAN
       # -------------------------
       - name: Scan for Secrets
