@@ -69,7 +69,6 @@ export default function AdForm({ categories = [], locations = [] }: AdFormProps)
       router.push("/dashboard")
       router.refresh()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.success])
 
   const fieldErrors = state.error?.fieldErrors ?? {}

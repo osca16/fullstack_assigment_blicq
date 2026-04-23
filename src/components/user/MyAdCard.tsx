@@ -9,7 +9,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/src/components/ui/card"
-import { getAdImageUrl, PLACEHOLDER_IMAGE_URL } from "@/src/lib/image-utils"
+import { getAdImageUrl } from "@/src/lib/image-utils"
 
 type MyAdCardProps = Readonly<{
 	ad: {

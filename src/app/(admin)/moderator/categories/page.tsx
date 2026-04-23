@@ -6,6 +6,8 @@ import Header from "@/src/components/shared/Header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
 import { auth } from "@/src/lib/auth"
 
+import { Category } from "@/src/types"
+
 export default async function ModeratorCategoriesPage() {
 	const session = await auth()
 
@@ -29,7 +31,7 @@ export default async function ModeratorCategoriesPage() {
 					submitLabel="Create Category"
 					namePlaceholder="Vehicles"
 					action={createCategory}
-					parentOptions={categories.map((category: { id: string; name: string }) => ({ id: category.id, name: category.name }))}
+					parentOptions={categories.map((category: Category) => ({ id: category.id, name: category.name }))}
 				/>
 
 				<Card>
@@ -41,14 +43,14 @@ export default async function ModeratorCategoriesPage() {
 						{categories.length === 0 ? (
 							<p className="text-sm text-muted-foreground">No categories added yet.</p>
 						) : (
-							categories.map((category: { id: string; name: string; slug: string; parentId: string | null; children: any[] }) => (
+							categories.map((category: Category) => (
 								<div key={category.id} className="rounded-md border p-3">
 									<p className="text-sm font-medium">{category.name}</p>
 									<p className="text-xs text-muted-foreground">Slug: {category.slug}</p>
 									{category.parentId && (
 										<p className="text-xs text-muted-foreground">Child category</p>
 									)}
-									{category.children.length > 0 && (
+									{category.children && category.children.length > 0 && (
 										<p className="text-xs text-muted-foreground">Children: {category.children.length}</p>
 									)}
 								</div>

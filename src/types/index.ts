@@ -1,5 +1,13 @@
 import { AdStatus } from "@/src/generated/prisma";
 
+export type Category = {
+    id: string;
+    name: string;
+    slug: string;
+    parentId: string | null;
+    children?: Category[];
+};
+
 export type CreateAdvertisementState = {
     success: boolean;
     message?: string;
