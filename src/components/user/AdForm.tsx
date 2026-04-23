@@ -53,19 +53,27 @@ export default function AdForm({ categories = [], locations = [] }: AdFormProps)
     initialState
   )
 
+  // Destructure stable callback references so the effect dependency array
+  // contains only primitives and stable functions — not whole hook objects
+  // (which are new references every render and would cause an infinite loop).
+  const { reset: resetImageCount } = selectedImageCount
+  const { reset: resetImageError } = clientImageError
+  const { value: currentPreviews, reset: resetPreviews } = imagePreviews
+
   useEffectHook(() => {
     if (state.success) {
-      selectedImageCount.reset()
-      clientImageError.reset()
-      // Cleanup object URLs
-      imagePreviews.value.forEach((preview) => {
+      resetImageCount()
+      resetImageError()
+      // Cleanup object URLs to avoid memory leaks
+      currentPreviews.forEach((preview) => {
         URL.revokeObjectURL(preview.url)
       })
-      imagePreviews.reset()
+      resetPreviews()
       router.push("/dashboard")
       router.refresh()
     }
-  }, [state.success, selectedImageCount, clientImageError, imagePreviews, router])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.success])
 
   const fieldErrors = state.error?.fieldErrors ?? {}
 

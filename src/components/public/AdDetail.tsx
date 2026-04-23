@@ -86,23 +86,33 @@ export default function AdDetail({ ad, showSellerContact }: AdDetailProps) {
 						</p>
 					</div>
 
-					{/* Seller contact block */}
+					{/* Seller contact block
+					    - Guests:        show generic "Seller" label + login prompt (name hidden)
+					    - Logged-in:     show real name + email                                   */}
 					<div className="rounded-md border bg-muted/40 p-4">
 						<p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
 							Seller
 						</p>
-						<p className="mt-1 font-medium">{ad.user.name ?? "Unknown seller"}</p>
+
 						{showSellerContact ? (
-							<p className="text-sm text-muted-foreground">{ad.user.email}</p>
+							/* Authenticated user — reveal full contact details */
+							<>
+								<p className="mt-1 font-medium">{ad.user.name ?? "Seller"}</p>
+								<p className="text-sm text-muted-foreground">{ad.user.email}</p>
+							</>
 						) : (
-							<div className="mt-2 flex flex-wrap items-center gap-2">
-								<p className="text-sm text-muted-foreground">
-									Login to view seller contact details.
-								</p>
-								<Button asChild size="sm" variant="outline">
-									<Link href="/login">Login</Link>
-								</Button>
-							</div>
+							/* Guest — mask identity, prompt to login */
+							<>
+								<p className="mt-1 font-medium text-muted-foreground">Seller</p>
+								<div className="mt-2 flex flex-wrap items-center gap-2">
+									<p className="text-sm text-muted-foreground">
+										Login to view seller contact details.
+									</p>
+									<Button asChild size="sm" variant="outline">
+										<Link href="/login">Login</Link>
+									</Button>
+								</div>
+							</>
 						)}
 					</div>
 				</CardContent>
