@@ -29,7 +29,7 @@ export default async function ModeratorCategoriesPage() {
 					title="Create Category"
 					description="Add parent or child categories used by ads and search filters."
 					submitLabel="Create Category"
-					namePlaceholder="Vehicles"
+					namePlaceholder="select a category"
 					action={createCategory}
 					parentOptions={categories.map((category: Category) => ({ id: category.id, name: category.name }))}
 				/>
