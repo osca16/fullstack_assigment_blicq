@@ -6,8 +6,6 @@ import { auth } from "../lib/auth";
 import { prisma } from "../lib/prisma";
 import { PendingAdvertisement, type ModerationActionState } from "../types";
 
-export type { ModerationActionState };
-
 
 async function requireModerator() {
     const session = await auth();

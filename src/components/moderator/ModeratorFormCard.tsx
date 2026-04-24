@@ -1,6 +1,6 @@
 "use client"
 
-import { type ModerationActionState } from "@/actions/moderation.actions"
+import { type ModerationActionState } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useFormStateHook } from "@/hooks/useFormStateHook"
