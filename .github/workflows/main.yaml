@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  build-scan-deploy:
+  build enviroment and install dependencies:
     runs-on: ubuntu-latest
 
     permissions:
@@ -55,12 +55,18 @@ jobs:
       - name: Audit Dependencies
         run: npm audit --audit-level=high
 
+jobs: 
+  Security Checks:
+    steps:
       # -------------------------
       # SECURITY: SECRET SCAN
       # -------------------------
       - name: Scan for Secrets
         uses: trufflesecurity/trufflehog@main
 
+jobs:
+  Docker Login:
+    steps:
       # -------------------------
       # DOCKER LOGIN
       # -------------------------
@@ -92,7 +98,9 @@ jobs:
       # -------------------------
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/classified-app:latest
-
+jobs:
+  Deploy to AMAZON EC2:
+    steps:
       # -------------------------
       # DEPLOY TO EC2
       # -------------------------
