@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { sendApprovalEmail, sendRejectionEmail } from "../lib/email/ses";
 import { auth } from "../lib/auth";
 import { prisma } from "../lib/prisma";
-import { PendingAdvertisement, ModerationActionState } from "../types";
+import { PendingAdvertisement, type ModerationActionState } from "../types";
+
+export type { ModerationActionState };
 
 
 async function requireModerator() {
