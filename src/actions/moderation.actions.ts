@@ -4,24 +4,19 @@ import { revalidatePath } from "next/cache";
 import { sendApprovalEmail, sendRejectionEmail } from "../lib/email/ses";
 import { auth } from "../lib/auth";
 import { prisma } from "../lib/prisma";
-import { PendingAdvertisement } from "../types";
+import { PendingAdvertisement, ModerationActionState } from "../types";
 
-export type ModerationActionState = {
-    success: boolean;
-    message?: string;
-    error?: string;
-};
 
-async function requireModerator(){
+async function requireModerator() {
     const session = await auth();
 
-    if(session?.user.role !== "MODERATOR") {
-        throw new Error ("Unauthorized please Login via Moderator Account to process...");
+    if (session?.user.role !== "MODERATOR") {
+        throw new Error("Unauthorized please Login via Moderator Account to process...");
     }
     return session;
 }
 
-export async function createCategory(formData: FormData): Promise<ModerationActionState>{
+export async function createCategory(formData: FormData): Promise<ModerationActionState> {
     await requireModerator();
 
     const name = (formData.get("name") as string | null)?.trim() ?? "";
@@ -42,7 +37,7 @@ export async function createCategory(formData: FormData): Promise<ModerationActi
             },
         });
         revalidatePath("/moderator/categories");
-        return { success:true, message: "Category created" };
+        return { success: true, message: "Category created" };
     } catch (error) {
         console.error(error);
         return { success: false, error: "Failed to create category. Slug may already exist." };
@@ -55,11 +50,11 @@ export async function getCategories() {
         include: {
             children: true,
         },
-        orderBy: {createdAt : "desc"},
+        orderBy: { createdAt: "desc" },
     });
 }
 
-export async function createLocation(formData: FormData): Promise<ModerationActionState>{
+export async function createLocation(formData: FormData): Promise<ModerationActionState> {
     await requireModerator();
     const name = (formData.get("name") as string | null)?.trim() ?? "";
 
@@ -71,10 +66,10 @@ export async function createLocation(formData: FormData): Promise<ModerationActi
 
     try {
         await prisma.location.create({
-            data: {name, slug},
+            data: { name, slug },
         });
         revalidatePath("/moderator/locations");
-        return { success:true, message: "Location created" };
+        return { success: true, message: "Location created" };
     } catch (error) {
         console.error(error);
         return { success: false, error: "Failed to create location. Slug may already exist." };
@@ -83,7 +78,7 @@ export async function createLocation(formData: FormData): Promise<ModerationActi
 
 export async function getLocations() {
     return prisma.location.findMany({
-        orderBy: {createdAt:"desc"},
+        orderBy: { createdAt: "desc" },
     });
 }
 
@@ -92,20 +87,20 @@ export async function approveAdvertisements(_prevState: ModerationActionState, f
     const adId = (formData.get("adId") as string | null)?.trim() ?? "";
     const note = (formData.get("note") as string | null)?.trim() ?? "";
 
-    if(!adId) {
+    if (!adId) {
         return { success: false, error: "Ad ID is required" };
     }
 
-    try{
+    try {
         const ad = await prisma.advertisement.update({
-            where: { id: adId},
+            where: { id: adId },
             data: {
                 status: "ACTIVE",
                 moderationNote: note || null,
                 moderatedById: session.user.id,
             },
             include: {
-                user:true,
+                user: true,
             },
         });
 
@@ -125,10 +120,10 @@ export async function approveAdvertisements(_prevState: ModerationActionState, f
         revalidatePath(`/moderator/ads/${adId}`);
         revalidatePath("/moderator");
         revalidatePath("/dashboard");
-        return { success:true, message: `Advertisement approved.${emailWarning}` };
+        return { success: true, message: `Advertisement approved.${emailWarning}` };
     } catch (error) {
         console.error(error);
-        return {success: false, error: "Failed to approve advertisement"};
+        return { success: false, error: "Failed to approve advertisement" };
     }
 }
 
@@ -186,29 +181,29 @@ export async function getPendingAdvertisements() {
     await requireModerator();
 
     const ads = await prisma.advertisement.findMany({
-                relationLoadStrategy: "join",
-                where: { status: "PENDING" },
-                select: {
-                        id: true,
-                        title: true,
-                        price: true,
-                        createdAt: true,
-                        user: { select: { name: true, email: true } },
-                        category: { select: { name: true } },
-                        location: { select: { name: true } },
-                        images: {
-                                where: { isPrimary: true },
-                                select: { filePath: true },
-                        },
-                },
-                orderBy: { createdAt: "desc" },
-        });
+        relationLoadStrategy: "join",
+        where: { status: "PENDING" },
+        select: {
+            id: true,
+            title: true,
+            price: true,
+            createdAt: true,
+            user: { select: { name: true, email: true } },
+            category: { select: { name: true } },
+            location: { select: { name: true } },
+            images: {
+                where: { isPrimary: true },
+                select: { filePath: true },
+            },
+        },
+        orderBy: { createdAt: "desc" },
+    });
 
-            return ads.map((ad) => ({
-                ...ad,
-                price: Number(ad.price),
-                createdAt: ad.createdAt.toISOString(),
-            })) as PendingAdvertisement[];
+    return ads.map((ad) => ({
+        ...ad,
+        price: Number(ad.price),
+        createdAt: ad.createdAt.toISOString(),
+    })) as PendingAdvertisement[];
 }
 
 export async function getModeratorDashboardStats() {

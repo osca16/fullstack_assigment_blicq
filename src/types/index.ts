@@ -1,5 +1,34 @@
 import { AdStatus } from "@/generated/prisma/index";
 
+export type AdCardProps = {
+    ad: {
+        id: string
+        title: string
+        price: number
+        location: {
+            name: string
+        }
+        images: Array<{
+            filePath: string
+        }>
+    }
+}
+
+export type AdDetailProps = Readonly<{
+    ad: {
+        id: string
+        title: string
+        description: string
+        price: number
+        category: { name: string }
+        location: { name: string }
+        images: Array<{ filePath: string; isPrimary: boolean }>
+        user: { name: string | null; email: string }
+    }
+    showSellerContact: boolean
+}>
+
+
 export type Category = {
     id: string;
     name: string;
@@ -74,4 +103,9 @@ export type PendingAdvertisement = {
     images: {
         filePath: string;
     }[];
+};
+export type ModerationActionState = {
+    success: boolean;
+    message?: string;
+    error?: string;
 };

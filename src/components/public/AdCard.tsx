@@ -3,23 +3,10 @@ import Image from "next/image"
 import { MapPin } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getAdImageUrl, PLACEHOLDER_IMAGE_URL } from "@/lib/image-utils"
+import { AdCardProps } from "@/types"
 
-type AdCardProps = {
-	ad: {
-		id: string
-		title: string
-		price: number
-		location: {
-			name: string
-		}
-		images: Array<{
-			filePath: string
-		}>
-	}
-}
 
 export default function AdCard({ ad }: AdCardProps) {
-	// Business logic: resolve the stored filePath to a browser-accessible URL.
 	const primaryImageUrl = ad.images[0]?.filePath
 		? getAdImageUrl(ad.images[0].filePath)
 		: PLACEHOLDER_IMAGE_URL

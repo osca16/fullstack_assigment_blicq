@@ -4,20 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPin } from "lucide-react"
 import { getAdImageUrl } from "@/lib/image-utils"
+import { AdDetailProps } from "@/types"
 
-type AdDetailProps = Readonly<{
-	ad: {
-		id: string
-		title: string
-		description: string
-		price: number
-		category: { name: string }
-		location: { name: string }
-		images: Array<{ filePath: string; isPrimary: boolean }>
-		user: { name: string | null; email: string }
-	}
-	showSellerContact: boolean
-}>
 
 export default function AdDetail({ ad, showSellerContact }: AdDetailProps) {
 	// Business logic: resolve the primary image to a browser-accessible URL.
