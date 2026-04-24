@@ -96,6 +96,7 @@ type SearchParams = {
 export async function getAdvertisementFormOptions() {
     const [categories, locations] = await Promise.all([
         prisma.category.findMany({
+            relationLoadStrategy: "join",
             select: {
                 id: true,
                 name: true,
@@ -238,29 +239,18 @@ export async function searchAdvertisements(params: SearchParams) {
     } = params;
 
     const results = await prisma.advertisement.findMany({
+        relationLoadStrategy: "join",
         where: {
             status: "ACTIVE",
-            ...(query && {
-                title: {
-                    contains: query,
-                    mode: "insensitive",
-                },
-            }),
-            ...((minPrice || maxPrice) && {
+            ...(query && { title: { contains: query, mode: "insensitive" } }),
+            ...((minPrice !== undefined || maxPrice !== undefined) && {
                 price: {
                     ...(minPrice !== undefined && { gte: minPrice }),
                     ...(maxPrice !== undefined && { lte: maxPrice }),
                 },
             }),
-            ...(categoryIds?.length && {
-                categoryId: {
-                    in: categoryIds,
-                },
-            }),
-            ...(locationId && {
-                locationId: locationId,
-            }),
-
+            ...(categoryIds?.length && { categoryId: { in: categoryIds } }),
+            ...(locationId && { locationId: { equals: locationId } }),
             user: {
                 status: "ACTIVE",
             },
@@ -306,6 +296,7 @@ export async function getUserAdvertisements(userId?: string) {
     }
 
     const ads = await prisma.advertisement.findMany({
+        relationLoadStrategy: "join",
         where: {
             userId: resolvedUserId,
         },

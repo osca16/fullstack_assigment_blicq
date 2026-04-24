@@ -51,6 +51,7 @@ export async function createCategory(formData: FormData): Promise<ModerationActi
 
 export async function getCategories() {
     return prisma.category.findMany({
+        relationLoadStrategy: "join",
         include: {
             children: true,
         },
@@ -185,6 +186,7 @@ export async function getPendingAdvertisements() {
     await requireModerator();
 
     const ads = await prisma.advertisement.findMany({
+                relationLoadStrategy: "join",
                 where: { status: "PENDING" },
                 select: {
                         id: true,
@@ -235,6 +237,7 @@ export async function getAdvertisementForModeration(adId: string) {
     await requireModerator();
 
     return prisma.advertisement.findUnique({
+        relationLoadStrategy: "join",
         where: { id: adId },
         select: {
             id: true,

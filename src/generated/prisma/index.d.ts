@@ -1974,7 +1974,7 @@ export namespace Prisma {
   type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
 
   type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: UserCountAggregateInputType | true
     }
 
@@ -2427,6 +2427,7 @@ export namespace Prisma {
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2449,6 +2450,7 @@ export namespace Prisma {
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2501,6 +2503,7 @@ export namespace Prisma {
      * Filter by unique combinations of Users.
      */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2553,6 +2556,7 @@ export namespace Prisma {
      * Filter by unique combinations of Users.
      */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2600,6 +2604,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2622,6 +2627,7 @@ export namespace Prisma {
      * The data needed to create a User.
      */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2678,6 +2684,7 @@ export namespace Prisma {
      * Choose, which User to update.
      */
     where: UserWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2752,6 +2759,7 @@ export namespace Prisma {
      * In case the User was found with the provided `where` argument, update it with this data.
      */
     update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -2774,6 +2782,7 @@ export namespace Prisma {
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -3245,7 +3254,7 @@ export namespace Prisma {
   type AccountGetPayload<S extends boolean | null | undefined | AccountDefaultArgs> = $Result.GetResult<Prisma.$AccountPayload, S>
 
   type AccountCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AccountFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<AccountFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: AccountCountAggregateInputType | true
     }
 
@@ -3698,6 +3707,7 @@ export namespace Prisma {
      * Filter, which Account to fetch.
      */
     where: AccountWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -3720,6 +3730,7 @@ export namespace Prisma {
      * Filter, which Account to fetch.
      */
     where: AccountWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -3772,6 +3783,7 @@ export namespace Prisma {
      * Filter by unique combinations of Accounts.
      */
     distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -3824,6 +3836,7 @@ export namespace Prisma {
      * Filter by unique combinations of Accounts.
      */
     distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -3871,6 +3884,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -3893,6 +3907,7 @@ export namespace Prisma {
      * The data needed to create a Account.
      */
     data: XOR<AccountCreateInput, AccountUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -3953,6 +3968,7 @@ export namespace Prisma {
      * Choose, which Account to update.
      */
     where: AccountWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4031,6 +4047,7 @@ export namespace Prisma {
      * In case the Account was found with the provided `where` argument, update it with this data.
      */
     update: XOR<AccountUpdateInput, AccountUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4053,6 +4070,7 @@ export namespace Prisma {
      * Filter which Account to delete.
      */
     where: AccountWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4330,7 +4348,7 @@ export namespace Prisma {
   type CategoryGetPayload<S extends boolean | null | undefined | CategoryDefaultArgs> = $Result.GetResult<Prisma.$CategoryPayload, S>
 
   type CategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<CategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: CategoryCountAggregateInputType | true
     }
 
@@ -4779,6 +4797,7 @@ export namespace Prisma {
      * Filter, which Category to fetch.
      */
     where: CategoryWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4801,6 +4820,7 @@ export namespace Prisma {
      * Filter, which Category to fetch.
      */
     where: CategoryWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4853,6 +4873,7 @@ export namespace Prisma {
      * Filter by unique combinations of Categories.
      */
     distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4905,6 +4926,7 @@ export namespace Prisma {
      * Filter by unique combinations of Categories.
      */
     distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4952,6 +4974,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -4974,6 +4997,7 @@ export namespace Prisma {
      * The data needed to create a Category.
      */
     data: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -5034,6 +5058,7 @@ export namespace Prisma {
      * Choose, which Category to update.
      */
     where: CategoryWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -5112,6 +5137,7 @@ export namespace Prisma {
      * In case the Category was found with the provided `where` argument, update it with this data.
      */
     update: XOR<CategoryUpdateInput, CategoryUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -5134,6 +5160,7 @@ export namespace Prisma {
      * Filter which Category to delete.
      */
     where: CategoryWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -5454,7 +5481,7 @@ export namespace Prisma {
   type LocationGetPayload<S extends boolean | null | undefined | LocationDefaultArgs> = $Result.GetResult<Prisma.$LocationPayload, S>
 
   type LocationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<LocationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<LocationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: LocationCountAggregateInputType | true
     }
 
@@ -5900,6 +5927,7 @@ export namespace Prisma {
      * Filter, which Location to fetch.
      */
     where: LocationWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -5922,6 +5950,7 @@ export namespace Prisma {
      * Filter, which Location to fetch.
      */
     where: LocationWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -5974,6 +6003,7 @@ export namespace Prisma {
      * Filter by unique combinations of Locations.
      */
     distinct?: LocationScalarFieldEnum | LocationScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -6026,6 +6056,7 @@ export namespace Prisma {
      * Filter by unique combinations of Locations.
      */
     distinct?: LocationScalarFieldEnum | LocationScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -6073,6 +6104,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: LocationScalarFieldEnum | LocationScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -6095,6 +6127,7 @@ export namespace Prisma {
      * The data needed to create a Location.
      */
     data: XOR<LocationCreateInput, LocationUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -6151,6 +6184,7 @@ export namespace Prisma {
      * Choose, which Location to update.
      */
     where: LocationWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -6225,6 +6259,7 @@ export namespace Prisma {
      * In case the Location was found with the provided `where` argument, update it with this data.
      */
     update: XOR<LocationUpdateInput, LocationUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -6247,6 +6282,7 @@ export namespace Prisma {
      * Filter which Location to delete.
      */
     where: LocationWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -6672,7 +6708,7 @@ export namespace Prisma {
   type AdvertisementGetPayload<S extends boolean | null | undefined | AdvertisementDefaultArgs> = $Result.GetResult<Prisma.$AdvertisementPayload, S>
 
   type AdvertisementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AdvertisementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<AdvertisementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: AdvertisementCountAggregateInputType | true
     }
 
@@ -7129,6 +7165,7 @@ export namespace Prisma {
      * Filter, which Advertisement to fetch.
      */
     where: AdvertisementWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7151,6 +7188,7 @@ export namespace Prisma {
      * Filter, which Advertisement to fetch.
      */
     where: AdvertisementWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7203,6 +7241,7 @@ export namespace Prisma {
      * Filter by unique combinations of Advertisements.
      */
     distinct?: AdvertisementScalarFieldEnum | AdvertisementScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7255,6 +7294,7 @@ export namespace Prisma {
      * Filter by unique combinations of Advertisements.
      */
     distinct?: AdvertisementScalarFieldEnum | AdvertisementScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7302,6 +7342,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: AdvertisementScalarFieldEnum | AdvertisementScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7324,6 +7365,7 @@ export namespace Prisma {
      * The data needed to create a Advertisement.
      */
     data: XOR<AdvertisementCreateInput, AdvertisementUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7384,6 +7426,7 @@ export namespace Prisma {
      * Choose, which Advertisement to update.
      */
     where: AdvertisementWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7462,6 +7505,7 @@ export namespace Prisma {
      * In case the Advertisement was found with the provided `where` argument, update it with this data.
      */
     update: XOR<AdvertisementUpdateInput, AdvertisementUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7484,6 +7528,7 @@ export namespace Prisma {
      * Filter which Advertisement to delete.
      */
     where: AdvertisementWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -7772,7 +7817,7 @@ export namespace Prisma {
   type AdImageGetPayload<S extends boolean | null | undefined | AdImageDefaultArgs> = $Result.GetResult<Prisma.$AdImagePayload, S>
 
   type AdImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AdImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<AdImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: AdImageCountAggregateInputType | true
     }
 
@@ -8217,6 +8262,7 @@ export namespace Prisma {
      * Filter, which AdImage to fetch.
      */
     where: AdImageWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8239,6 +8285,7 @@ export namespace Prisma {
      * Filter, which AdImage to fetch.
      */
     where: AdImageWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8291,6 +8338,7 @@ export namespace Prisma {
      * Filter by unique combinations of AdImages.
      */
     distinct?: AdImageScalarFieldEnum | AdImageScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8343,6 +8391,7 @@ export namespace Prisma {
      * Filter by unique combinations of AdImages.
      */
     distinct?: AdImageScalarFieldEnum | AdImageScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8390,6 +8439,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: AdImageScalarFieldEnum | AdImageScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8412,6 +8462,7 @@ export namespace Prisma {
      * The data needed to create a AdImage.
      */
     data: XOR<AdImageCreateInput, AdImageUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8472,6 +8523,7 @@ export namespace Prisma {
      * Choose, which AdImage to update.
      */
     where: AdImageWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8550,6 +8602,7 @@ export namespace Prisma {
      * In case the AdImage was found with the provided `where` argument, update it with this data.
      */
     update: XOR<AdImageUpdateInput, AdImageUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8572,6 +8625,7 @@ export namespace Prisma {
      * Filter which AdImage to delete.
      */
     where: AdImageWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -8817,7 +8871,7 @@ export namespace Prisma {
   type SessionGetPayload<S extends boolean | null | undefined | SessionDefaultArgs> = $Result.GetResult<Prisma.$SessionPayload, S>
 
   type SessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<SessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<SessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: SessionCountAggregateInputType | true
     }
 
@@ -9262,6 +9316,7 @@ export namespace Prisma {
      * Filter, which Session to fetch.
      */
     where: SessionWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9284,6 +9339,7 @@ export namespace Prisma {
      * Filter, which Session to fetch.
      */
     where: SessionWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9336,6 +9392,7 @@ export namespace Prisma {
      * Filter by unique combinations of Sessions.
      */
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9388,6 +9445,7 @@ export namespace Prisma {
      * Filter by unique combinations of Sessions.
      */
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9435,6 +9493,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9457,6 +9516,7 @@ export namespace Prisma {
      * The data needed to create a Session.
      */
     data: XOR<SessionCreateInput, SessionUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9517,6 +9577,7 @@ export namespace Prisma {
      * Choose, which Session to update.
      */
     where: SessionWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9595,6 +9656,7 @@ export namespace Prisma {
      * In case the Session was found with the provided `where` argument, update it with this data.
      */
     update: XOR<SessionUpdateInput, SessionUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9617,6 +9679,7 @@ export namespace Prisma {
      * Filter which Session to delete.
      */
     where: SessionWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -9836,7 +9899,7 @@ export namespace Prisma {
   type VerificationTokenGetPayload<S extends boolean | null | undefined | VerificationTokenDefaultArgs> = $Result.GetResult<Prisma.$VerificationTokenPayload, S>
 
   type VerificationTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<VerificationTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<VerificationTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
       select?: VerificationTokenCountAggregateInputType | true
     }
 
@@ -10275,6 +10338,7 @@ export namespace Prisma {
      * Filter, which VerificationToken to fetch.
      */
     where: VerificationTokenWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10293,6 +10357,7 @@ export namespace Prisma {
      * Filter, which VerificationToken to fetch.
      */
     where: VerificationTokenWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10341,6 +10406,7 @@ export namespace Prisma {
      * Filter by unique combinations of VerificationTokens.
      */
     distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10389,6 +10455,7 @@ export namespace Prisma {
      * Filter by unique combinations of VerificationTokens.
      */
     distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10432,6 +10499,7 @@ export namespace Prisma {
      */
     skip?: number
     distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10450,6 +10518,7 @@ export namespace Prisma {
      * The data needed to create a VerificationToken.
      */
     data: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10502,6 +10571,7 @@ export namespace Prisma {
      * Choose, which VerificationToken to update.
      */
     where: VerificationTokenWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10572,6 +10642,7 @@ export namespace Prisma {
      * In case the VerificationToken was found with the provided `where` argument, update it with this data.
      */
     update: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10590,6 +10661,7 @@ export namespace Prisma {
      * Filter which VerificationToken to delete.
      */
     where: VerificationTokenWhereUniqueInput
+    relationLoadStrategy?: RelationLoadStrategy
   }
 
   /**
@@ -10648,6 +10720,14 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const RelationLoadStrategy: {
+    query: 'query',
+    join: 'join'
+  };
+
+  export type RelationLoadStrategy = (typeof RelationLoadStrategy)[keyof typeof RelationLoadStrategy]
 
 
   export const AccountScalarFieldEnum: {

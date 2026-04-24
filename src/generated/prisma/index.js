@@ -106,6 +106,11 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RelationLoadStrategy = {
+  query: 'query',
+  join: 'join'
+};
+
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -235,14 +240,20 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "linux-musl"
       }
     ],
-    "previewFeatures": [],
+    "previewFeatures": [
+      "relationJoins"
+    ],
     "sourceFilePath": "F:\\Osanda Personal\\Osanda_Lakruwan\\nextjs_project\\fullstack_assigment\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -261,8 +272,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  USER\n  MODERATOR\n}\n\nenum UserStatus {\n  ACTIVE\n  BLOCKED\n}\n\nenum AdStatus {\n  PENDING\n  ACTIVE\n  REJECTED\n}\n\nmodel User {\n  id            String     @id @default(cuid())\n  name          String?\n  email         String     @unique\n  role          Role       @default(USER)\n  emailVerified DateTime?\n  image         String?\n  status        UserStatus @default(ACTIVE)\n  createdAt     DateTime   @default(now())\n  updatedAt     DateTime   @updatedAt\n\n  //Relations\n  accounts Account[]\n  sessions Session[]\n\n  advertisements Advertisement[] @relation(\"UserAdvertisements\")\n  moderatedAds   Advertisement[] @relation(\"ModeratedAdvertisements\")\n}\n\nmodel Account {\n  id                String  @id @default(cuid())\n  userId            String\n  type              String\n  provider          String\n  providerAccountId String\n  refresh_token     String?\n  access_token      String?\n  expires_at        Int?\n  token_type        String?\n  scope             String?\n  id_token          String?\n  session_state     String?\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Category {\n  id        String   @id @default(cuid())\n  name      String\n  slug      String   @unique\n  parentId  String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  //self relation\n  parent   Category?  @relation(\"CategoryHierarchy\", fields: [parentId], references: [id])\n  children Category[] @relation(\"CategoryHierarchy\")\n\n  //Relations\n  advertisements Advertisement[]\n\n  @@index([parentId])\n}\n\nmodel Location {\n  id        String   @id @default(cuid())\n  name      String\n  slug      String   @unique\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  advertisements Advertisement[]\n}\n\nmodel Advertisement {\n  id            String  @id @default(cuid())\n  userId        String\n  categoryId    String\n  locationId    String\n  moderatedById String?\n\n  title          String\n  description    String\n  price          Decimal  @db.Decimal(10, 2)\n  status         AdStatus @default(PENDING)\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  moderationNote String?\n\n  //Relations\n  user     User      @relation(\"UserAdvertisements\", fields: [userId], references: [id], onDelete: Cascade)\n  category Category  @relation(fields: [categoryId], references: [id])\n  location Location  @relation(fields: [locationId], references: [id])\n  images   AdImage[]\n\n  moderatedBy User? @relation(\"ModeratedAdvertisements\", fields: [moderatedById], references: [id])\n\n  @@index([categoryId])\n  @@index([locationId])\n  @@index([status])\n  @@index([userId])\n}\n\nmodel AdImage {\n  id              String  @id @default(cuid())\n  advertisementId String\n  filePath        String\n  isPrimary       Boolean @default(false)\n\n  advertisement Advertisement @relation(fields: [advertisementId], references: [id], onDelete: Cascade)\n}\n\nmodel Session {\n  id           String   @id @default(cuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String   @unique\n  expires    DateTime\n\n  @@unique([identifier, token])\n}\n",
-  "inlineSchemaHash": "355bf96646866d7a1e6c93265df7f95c67a23cef5d36594924ecdc7418c702e7",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../src/generated/prisma\"\n  binaryTargets   = [\"native\", \"linux-musl\"]\n  previewFeatures = [\"relationJoins\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  USER\n  MODERATOR\n}\n\nenum UserStatus {\n  ACTIVE\n  BLOCKED\n}\n\nenum AdStatus {\n  PENDING\n  ACTIVE\n  REJECTED\n}\n\nmodel User {\n  id            String     @id @default(cuid())\n  name          String?\n  email         String     @unique\n  role          Role       @default(USER)\n  emailVerified DateTime?\n  image         String?\n  status        UserStatus @default(ACTIVE)\n  createdAt     DateTime   @default(now())\n  updatedAt     DateTime   @updatedAt\n\n  //Relations\n  accounts Account[]\n  sessions Session[]\n\n  advertisements Advertisement[] @relation(\"UserAdvertisements\")\n  moderatedAds   Advertisement[] @relation(\"ModeratedAdvertisements\")\n}\n\nmodel Account {\n  id                String  @id @default(cuid())\n  userId            String\n  type              String\n  provider          String\n  providerAccountId String\n  refresh_token     String?\n  access_token      String?\n  expires_at        Int?\n  token_type        String?\n  scope             String?\n  id_token          String?\n  session_state     String?\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Category {\n  id        String   @id @default(cuid())\n  name      String\n  slug      String   @unique\n  parentId  String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  //self relation\n  parent   Category?  @relation(\"CategoryHierarchy\", fields: [parentId], references: [id])\n  children Category[] @relation(\"CategoryHierarchy\")\n\n  //Relations\n  advertisements Advertisement[]\n\n  @@index([parentId])\n}\n\nmodel Location {\n  id        String   @id @default(cuid())\n  name      String\n  slug      String   @unique\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  advertisements Advertisement[]\n}\n\nmodel Advertisement {\n  id            String  @id @default(cuid())\n  userId        String\n  categoryId    String\n  locationId    String\n  moderatedById String?\n\n  title          String\n  description    String\n  price          Decimal  @db.Decimal(10, 2)\n  status         AdStatus @default(PENDING)\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  moderationNote String?\n\n  //Relations\n  user     User      @relation(\"UserAdvertisements\", fields: [userId], references: [id], onDelete: Cascade)\n  category Category  @relation(fields: [categoryId], references: [id])\n  location Location  @relation(fields: [locationId], references: [id])\n  images   AdImage[]\n\n  moderatedBy User? @relation(\"ModeratedAdvertisements\", fields: [moderatedById], references: [id])\n\n  @@index([categoryId])\n  @@index([locationId])\n  @@index([status])\n  @@index([userId])\n}\n\nmodel AdImage {\n  id              String  @id @default(cuid())\n  advertisementId String\n  filePath        String\n  isPrimary       Boolean @default(false)\n\n  advertisement Advertisement @relation(fields: [advertisementId], references: [id], onDelete: Cascade)\n}\n\nmodel Session {\n  id           String   @id @default(cuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String   @unique\n  expires    DateTime\n\n  @@unique([identifier, token])\n}\n",
+  "inlineSchemaHash": "c71811d8f76895b7f753382735d5db41a8363fdb8ebd7bf94a882679409a06c3",
   "copyEngine": true
 }
 
@@ -303,6 +314,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-linux-musl.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-linux-musl.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
